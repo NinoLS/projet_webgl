@@ -31,9 +31,9 @@
 				document.body.appendChild( container );
 
 				camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 2000 );
-                camera.rotation.x=1.6;//rotation vertical
-                camera.rotation.y=10; //rotation horizontale
-                camera.position.z=-20;//"déplacement" hauteur
+                camera.rotation.x=1.6;//rotation vertical devant-derriere
+                camera.rotation.y=9.4; //rotation horizontale
+                camera.position.z=-20;//rotation vertical gauche-droite
 
 				// scene
 				scene = new THREE.Scene();
@@ -81,9 +81,14 @@
 
 			$('*').keydown(function(event)
 			{
-				if(event.which == 37) //flèche gauche
+				if(event.which == FLECHE_GAUCHE)
 					camera.rotation.y += 0.05
-                
+				if(event.which == FLECHE_DROITE)
+					camera.rotation.y -= 0.05
+				if(event.which == FLECHE_HAUT)
+					camera.position.y -= 0.05
+				if(event.which == FLECHE_BAS)
+					camera.position.y += 0.05
 			})
 
 
