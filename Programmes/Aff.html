@@ -11,7 +11,6 @@
 
 		<script>
 			var container; 
-            
 			var camera, scene, renderer;
             var dax=0.002;
 
@@ -20,15 +19,14 @@
 				camera.updateProjectionMatrix();
 				renderer.setSize( window.innerWidth, window.innerHeight );
 			}
-
 			function Init() {
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
 
 				camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 2000 );
-                camera.rotation.x=0;
-                camera.rotation.y=0;
-                camera.position.z=0;
+                camera.rotation.x=1.6;//rotation vertical
+                camera.rotation.y=10; //rotation horizontale
+                camera.position.z=-20;//"déplacement" hauteur
 
 				// scene
 				scene = new THREE.Scene();
@@ -74,8 +72,11 @@
 				Afficher();
 			}
 
-           Init();
-           Animer();
+			
+
+
+        	Init();
+            Animer();
 
 		</script>
 
