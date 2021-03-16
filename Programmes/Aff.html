@@ -16,6 +16,14 @@
 			const FLECHE_HAUT = 38;
 			const FLECHE_BAS = 40;
 			
+			const MIN_X = -5;
+			const MAX_X = 5;
+
+			const MIN_Y = -10.40;
+			const MAX_Y = 10.40;
+
+			const MIN_Z = 0;
+			const MAX_Z = 0;
 
 			var container; 
 			var camera, scene, renderer;
@@ -31,9 +39,9 @@
 				document.body.appendChild( container );
 
 				camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 2000 );
-                camera.rotation.x=1.6;//rotation vertical devant-derriere
-                camera.rotation.y=9.4; //rotation horizontale
-                camera.position.z=-20;//rotation vertical gauche-droite
+                camera.rotation.x=1.6;  //rotation vertical devant-derriere
+                camera.rotation.y=9.43; //rotation horizontale
+                camera.position.z=-20;  //rotation vertical gauche-droite
 
 				// scene
 				scene = new THREE.Scene();
@@ -85,10 +93,26 @@
 					camera.rotation.y += 0.05
 				if(event.which == FLECHE_DROITE)
 					camera.rotation.y -= 0.05
-				if(event.which == FLECHE_HAUT)
-					camera.translateZ(-0.1)
-				if(event.which == FLECHE_BAS)
-					camera.translateZ(0.1)
+
+				if(event.which == FLECHE_HAUT || event.which == FLECHE_BAS)
+				{
+					if(camera.position.x-0.1 < MIN_X)
+						camera.position.x += 0.1
+					if(camera.position.x+0.1 > MAX_X)
+						camera.position.x -= 0.1
+
+					if(camera.position.y-0.1 < MIN_Y)
+						camera.position.y += 0.1
+					if(camera.position.y+0.1 > MAX_Y)
+						camera.position.y -= 0.1
+
+					if(event.which == FLECHE_HAUT)
+							camera.translateZ(-0.1)
+					if(event.which == FLECHE_BAS)
+							camera.translateZ(0.1)
+							
+					console.log(camera.position)
+				}
 			})
 
 
