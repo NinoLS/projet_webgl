@@ -6,10 +6,17 @@
 	</head>
 
 	<body>
+		<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 		<script src="../Libs/three.min.js"></script>
 		<script src="../Libs/OBJLoader.js"></script>
 
 		<script>
+			const FLECHE_GAUCHE = 37;
+			const FLECHE_DROITE = 39;
+			const FLECHE_HAUT = 38;
+			const FLECHE_BAS = 40;
+			
+
 			var container; 
 			var camera, scene, renderer;
             var dax=0.002;
@@ -72,7 +79,12 @@
 				Afficher();
 			}
 
-			
+			$('*').keydown(function(event)
+			{
+				if(event.which == 37) //flèche gauche
+					camera.rotation.y += 0.05
+                
+			})
 
 
         	Init();
