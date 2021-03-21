@@ -1,129 +1,124 @@
 <html>
-	<head>
-		<title>Transept de la cathédrale d'Amiens</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	</head>
+  <head>
+    <title>Transept de la cathédrale d'Amiens</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+  </head>
 
-	<body>
-		<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-		<script src="../Libs/three.min.js"></script>
-		<script src="../Libs/OBJLoader.js"></script>
+  <body>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="../Libs/three.min.js"></script>
+    <script src="../Libs/OBJLoader.js"></script>
 
-		<script>
-			const FLECHE_GAUCHE = 37;
-			const FLECHE_DROITE = 39;
-			const FLECHE_HAUT = 38;
-			const FLECHE_BAS = 40;
-			
-			const MIN_X = -5;
-			const DEFAULT_X = 1.6;
-			const MAX_X = 5;
+    <script>
+      const FLECHE_GAUCHE = 37;
+      const FLECHE_DROITE = 39;
+      const FLECHE_HAUT = 38;
+      const FLECHE_BAS = 40;
 
-			const MIN_Y = -10.40;
-			const DEFAULT_Y = 9.43;
-			const MAX_Y = 10.40;
+      const MIN_X = -5;
+      const DEFAULT_X = 1.6;
+      const MAX_X = 5;
 
-			const MIN_Z = 0;
-			const DEFAULT_Z = -20;
-			const MAX_Z = 0;
+      const MIN_Y = -10.4;
+      const DEFAULT_Y = 9.43;
+      const MAX_Y = 10.4;
 
-			var container; 
-			var camera, scene, renderer;
-            var dax=0.002;
+      const MIN_Z = 0;
+      const DEFAULT_Z = -20;
+      const MAX_Z = 0;
 
-			function onWindowResize() {
-              camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
-				renderer.setSize( window.innerWidth, window.innerHeight );
-			}
-			function Init() {
-				container = document.createElement( 'div' );
-				document.body.appendChild( container );
+      var container;
+      var camera, scene, renderer;
+      var dax = 0.002;
 
-				camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 2000 );
-                camera.rotation.x=DEFAULT_X;  //rotation vertical devant-derriere
-                camera.rotation.y=DEFAULT_Y; //rotation horizontale
-                camera.position.z=DEFAULT_Z;  //rotation vertical gauche-droite
+      function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+      function Init() {
+        container = document.createElement("div");
+        document.body.appendChild(container);
 
-				// scene
-				scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(
+          90,
+          window.innerWidth / window.innerHeight,
+          1,
+          2000
+        );
+        camera.rotation.x = DEFAULT_X; //rotation vertical devant-derriere
+        camera.rotation.y = DEFAULT_Y; //rotation horizontale
+        camera.position.z = DEFAULT_Z; //rotation vertical gauche-droite
 
-				var ambient = new THREE.AmbientLight( 0xffffff );
-				scene.add( ambient );
+        // scene
+        scene = new THREE.Scene();
 
-				// texture
+        var ambient = new THREE.AmbientLight(0xffffff);
+        scene.add(ambient);
 
-				var manager = new THREE.LoadingManager();
-				manager.onProgress = function ( item, loaded, total ) {
-					console.log( item, loaded, total );
-				};
+        // texture
 
-				var texture = new THREE.Texture();
+        var manager = new THREE.LoadingManager();
+        manager.onProgress = function (item, loaded, total) {
+          console.log(item, loaded, total);
+        };
 
-				var loader = new THREE.ImageLoader( manager );
-				loader.load( '../TranseptSud/TranseptTexture4096.jpg', function ( image ) {
-					texture.image = image;
-					texture.needsUpdate = true;
-				} );
+        var texture = new THREE.Texture();
 
-				// Chargement du modèle
-				var loader = new THREE.OBJLoader( manager );
-				loader.load( '../TranseptSud/transeptSudBox.obj', function ( object ) {
-					object.traverse( function ( child ) {
-						if ( child instanceof THREE.Mesh ) {
-							child.material.map = texture;
-						}
-					} );
-					scene.add( object );
-				} );
-              renderer = new THREE.WebGLRenderer();
-              renderer.setSize( window.innerWidth, window.innerHeight );
-              container.appendChild( renderer.domElement );
-              window.addEventListener( 'resize', onWindowResize, false );
-			}
-			function Afficher() {
-                renderer.render(scene,camera);
-			}
-			function Animer() {
-				requestAnimationFrame(Animer);
-				Afficher();
-			}
+        var loader = new THREE.ImageLoader(manager);
+        loader.load("../TranseptSud/TranseptTexture4096.jpg", function (image) {
+          texture.image = image;
+          texture.needsUpdate = true;
+        });
 
-			$('*').keydown(function(event)
-			{
-				if(event.which == FLECHE_GAUCHE)
-					camera.rotation.y += 0.05
-				if(event.which == FLECHE_DROITE)
-					camera.rotation.y -= 0.05
+        // Chargement du modèle
+        var loader = new THREE.OBJLoader(manager);
+        loader.load("../TranseptSud/transeptSudBox.obj", function (object) {
+          object.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+              child.material.map = texture;
+            }
+          });
+          scene.add(object);
+        });
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+        window.addEventListener("resize", onWindowResize, false);
+      }
+      function Afficher() {
+        renderer.render(scene, camera);
+      }
+      function Animer() {
+        requestAnimationFrame(Animer);
+        Afficher();
+      }
 
-				if(event.which == FLECHE_HAUT || event.which == FLECHE_BAS)
-				{
-					if(camera.position.x-0.1 < MIN_X)
-						camera.position.x += 0.1
-					if(camera.position.x+0.1 > MAX_X)
-						camera.position.x -= 0.1
+      $("*").keydown(function (event) {
+        if (event.which == FLECHE_GAUCHE) camera.rotation.y += 0.05;
+        if (event.which == FLECHE_DROITE) camera.rotation.y -= 0.05;
 
-					if(camera.position.y-0.1 < MIN_Y)
-						camera.position.y += 0.1
-					if(camera.position.y+0.1 > MAX_Y)
-						camera.position.y -= 0.1
+        if (event.which == FLECHE_HAUT || event.which == FLECHE_BAS) {
+          if (camera.position.x - 0.1 < MIN_X) camera.position.x += 0.1;
+          if (camera.position.x + 0.1 > MAX_X) camera.position.x -= 0.1;
 
-					if(event.which == FLECHE_HAUT)
-							camera.translateZ(-0.1)
-					if(event.which == FLECHE_BAS)
-							camera.translateZ(0.1)
-							
-					camera.position.z = DEFAULT_Z
-					console.log(camera.position)
-				}
-			})
+          if (camera.position.y - 0.1 < MIN_Y) camera.position.y += 0.1;
+          if (camera.position.y + 0.1 > MAX_Y) camera.position.y -= 0.1;
 
+          if (event.which == FLECHE_HAUT) camera.translateZ(-0.1);
+          if (event.which == FLECHE_BAS) camera.translateZ(0.1);
 
-        	Init();
-            Animer();
+          camera.position.z = DEFAULT_Z;
+          console.log(camera.position);
+        }
+      });
 
-		</script>
-
-	</body>
+      Init();
+      Animer();
+    </script>
+  </body>
 </html>
