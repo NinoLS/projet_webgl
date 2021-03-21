@@ -20,11 +20,11 @@
       const FLECHE_BAS = 40;
 
       const MIN_X = -5;
-      const DEFAULT_X = 1.6;
+      const DEFAULT_X = 0;
       const MAX_X = 5;
 
       const MIN_Y = -10.4;
-      const DEFAULT_Y = 9.43;
+      const DEFAULT_Y = 0;
       const MAX_Y = 10.4;
 
       const MIN_Z = 0;
@@ -50,8 +50,11 @@
           1,
           2000
         );
-        camera.rotation.x = DEFAULT_X; //rotation vertical devant-derriere
-        camera.rotation.y = DEFAULT_Y; //rotation horizontale
+        camera.rotation.x = 1.6; //rotation vertical devant-derriere
+        camera.rotation.y = 9.43; //rotation horizontale
+
+        camera.position.x = DEFAULT_X; //rotation vertical gauche-droite
+        camera.position.y = DEFAULT_Y; //rotation vertical gauche-droite
         camera.position.z = DEFAULT_Z; //rotation vertical gauche-droite
 
         // scene
