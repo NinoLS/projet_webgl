@@ -57,7 +57,7 @@
         // scene
         scene = new THREE.Scene();
 
-        var ambient = new THREE.AmbientLight(0xffffff);
+        var ambient = new THREE.AmbientLight(0xaaaaaa);
         scene.add(ambient);
 
         // texture
@@ -89,6 +89,14 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         container.appendChild(renderer.domElement);
         window.addEventListener("resize", onWindowResize, false);
+
+        // LUMIERE MAIN PERSONNAGE
+        //DirectionalLight( color : Integer, intensity : Float )
+        var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.x = DEFAULT_X;
+        directionalLight.position.y = DEFAULT_Y;
+        directionalLight.position.z = DEFAULT_Z;
+        scene.add(directionalLight);
       }
       function Afficher() {
         renderer.render(scene, camera);
