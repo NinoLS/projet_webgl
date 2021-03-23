@@ -149,18 +149,8 @@
         if (event.which == FLECHE_GAUCHE) camera.rotation.y += 0.05;
         if (event.which == FLECHE_DROITE) camera.rotation.y -= 0.05;
         VerifierProcheMur(camera, event, FLECHE_HAUT, FLECHE_BAS);
-        if (event.which == FLECHE_HAUT || event.which == FLECHE_BAS) {
-          if (camera.position.x - 0.1 < MIN_X) camera.position.x += 0.1;
-          if (camera.position.x + 0.1 > MAX_X) camera.position.x -= 0.1;
-
-          if (camera.position.y - 0.1 < MIN_Y) camera.position.y += 0.1;
-          if (camera.position.y + 0.1 > MAX_Y) camera.position.y -= 0.1;
-
-          if (event.which == FLECHE_HAUT) camera.translateZ(-0.1);
-          if (event.which == FLECHE_BAS) camera.translateZ(0.1);
-
-          camera.position.z = DEFAULT_Z;
-        }
+        if (event.which == FLECHE_HAUT) camera.translateZ(-0.1);
+        if (event.which == FLECHE_BAS) camera.translateZ(0.1);
       });
 
       Init();
