@@ -26,8 +26,10 @@
       const Y = 89;
 
       const MIN_X = -5;
+      const MIN_X_ROTATION = -0.64;
       const DEFAULT_X = 0;
       const DEFAULT_X_ROTATION = 1.6;
+      const MAX_X_ROTATION = -2.44;
       const MAX_X = 5;
 
       const MIN_Y = -10.4;
@@ -111,7 +113,7 @@
         scene.add(cube);
 
         // LUMIERE MAIN PERSONNAGE
-        light = new THREE.DirectionalLight(0xff0000, 0.4, 0.1);
+        light = new THREE.DirectionalLight(0xff9a00, 1, 1);
         camera.add(light);
         scene.add(camera);
         light.position.z = 35;
@@ -132,29 +134,26 @@
         if (object.position.y + 0.1 > MAX_Y) object.position.y -= 0.1;
         object.position.z = DEFAULT_Z;
       }
+      function VerifierAngleTete(object, event) {
+        if (object.rotation.x - 0.1 < MIN_X_ROTATION) object.rotation.x += 0.1;
+        if (object.rotation.x + 0.1 > MAX_X_ROTATION) object.rotation.x -= 0.1;
+      }
 
       $("*").keydown(function (event) {
-        if (event.which == X) light.position.z += 1;
+        if (event.which == X) camera.lookAt(camera.position);
         if (event.which == Y) light.position.y += 1;
 
         VerifierProcheMur(cube, event);
 
         //caméra
         if (event.altKey) {
-          if (event.which == FLECHE_GAUCHE) camera.rotation.y += 0.1;
-          if (event.which == FLECHE_DROITE) camera.rotation.y -= 0.1;
-          if (
-            event.which == FLECHE_HAUT &&
-            camera.rotation.x >= DEFAULT_X_ROTATION - 1 //rotation maximale
-          )
-            camera.rotation.x -= 0.1;
-          if (
-            event.which == FLECHE_BAS &&
-            camera.rotation.x <= DEFAULT_X_ROTATION + 0.8 //rotation maximale
-          )
-            camera.rotation.x += 0.1;
+          VerifierAngleTete(camera, event);
+          if (event.which == FLECHE_GAUCHE) camera.rotateY(0.1);
+          if (event.which == FLECHE_DROITE) camera.rotateY(-0.1);
+          if (event.which == FLECHE_HAUT) camera.rotateX(0.1);
+          if (event.which == FLECHE_BAS) camera.rotateX(-0.1);
         } else {
-          VerifierProcheMur(camera, event, FLECHE_HAUT, FLECHE_BAS);
+          VerifierProcheMur(camera, event);
           if (event.which == FLECHE_GAUCHE) camera.translateX(-0.1);
           if (event.which == FLECHE_DROITE) camera.translateX(0.1);
           if (event.which == FLECHE_HAUT) camera.translateZ(-0.1);
