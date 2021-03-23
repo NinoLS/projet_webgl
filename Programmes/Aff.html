@@ -107,10 +107,10 @@
         window.addEventListener("resize", onWindowResize, false);
 
         // FORME LUMIERE
-        var GCube = new THREE.SphereGeometry(1, 20, 20);
-        var MCube = new THREE.MeshLambertMaterial({ color: 0xff0000 });
+        var GCube = new THREE.SphereGeometry(0.1, 20, 20);
+        var MCube = new THREE.MeshLambertMaterial({ color: 0x251400 });
         cube = new THREE.Mesh(GCube, MCube);
-        cube.position.set(DEFAULT_X, DEFAULT_Y, DEFAULT_Z);
+        cube.position.set(MAX_X - 0.2, MAX_Y - 0.2, DEFAULT_Z);
         scene.add(cube);
 
         // LUMIERE MAIN PERSONNAGE
