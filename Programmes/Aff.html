@@ -27,10 +27,12 @@
 
       const MIN_X = -5;
       const DEFAULT_X = 0;
+      const DEFAULT_X_ROTATION = 1.6;
       const MAX_X = 5;
 
       const MIN_Y = -10.4;
       const DEFAULT_Y = 0;
+      const DEFAULT_Y_ROTATION = 9.43;
       const MAX_Y = 10.4;
 
       const MIN_Z = 0;
@@ -58,8 +60,8 @@
           1,
           2000
         );
-        camera.rotation.x = 1.6; //rotation vertical devant-derriere
-        camera.rotation.y = 9.43; //rotation horizontale
+        camera.rotation.x = DEFAULT_X_ROTATION; //rotation vertical devant-derriere
+        camera.rotation.y = DEFAULT_Y_ROTATION; //rotation horizontale
 
         camera.position.x = DEFAULT_X; //rotation vertical gauche-droite
         camera.position.y = DEFAULT_Y; //rotation vertical gauche-droite
@@ -141,8 +143,16 @@
         if (event.altKey) {
           if (event.which == FLECHE_GAUCHE) camera.rotation.y += 0.1;
           if (event.which == FLECHE_DROITE) camera.rotation.y -= 0.1;
-          if (event.which == FLECHE_HAUT) camera.rotation.x -= 0.1;
-          if (event.which == FLECHE_BAS) camera.rotation.x += 0.1;
+          if (
+            event.which == FLECHE_HAUT &&
+            camera.rotation.x >= DEFAULT_X_ROTATION - 1 //rotation maximale
+          )
+            camera.rotation.x -= 0.1;
+          if (
+            event.which == FLECHE_BAS &&
+            camera.rotation.x <= DEFAULT_X_ROTATION + 0.8 //rotation maximale
+          )
+            camera.rotation.x += 0.1;
         } else {
           VerifierProcheMur(camera, event, FLECHE_HAUT, FLECHE_BAS);
           if (event.which == FLECHE_GAUCHE) camera.translateX(-0.1);
