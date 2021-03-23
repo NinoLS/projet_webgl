@@ -22,6 +22,8 @@
       const Q = 81;
       const S = 83;
       const D = 68;
+      const X = 88;
+      const Y = 89;
 
       const MIN_X = -5;
       const DEFAULT_X = 0;
@@ -39,7 +41,6 @@
       var camera, scene, renderer;
       var dax = 0.002;
 
-      var pointLight;
       var light;
 
       function onWindowResize() {
@@ -101,22 +102,16 @@
         window.addEventListener("resize", onWindowResize, false);
 
         // FORME LUMIERE
-        var GCube = new THREE.CubeGeometry(2, 2, 2);
-        var MCube = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        var GCube = new THREE.SphereGeometry(1, 20, 20);
+        var MCube = new THREE.MeshLambertMaterial({ color: 0xff0000 });
         cube = new THREE.Mesh(GCube, MCube);
         cube.position.set(DEFAULT_X, DEFAULT_Y, DEFAULT_Z);
         scene.add(cube);
 
         // LUMIERE MAIN PERSONNAGE
-        pointLight = new THREE.PointLight(0xffdd00, 1);
-        pointLight.position.set(DEFAULT_X, DEFAULT_Y + 50, DEFAULT_Z + 40);
+        light = new THREE.DirectionalLight(0xff0000, 2, 2);
+        camera.add(light);
         scene.add(camera);
-
-        light = new THREE.PointLight(0xffaa00, 10, 7);
-        light.position.x = 0; //rotation vertical gauche-droite
-        light.position.y = 11; //rotation vertical gauche-droite
-        light.position.z = -20; //rotation vertical gauche-droite
-        scene.add(light);
       }
       function Afficher() {
         renderer.render(scene, camera);
@@ -126,28 +121,33 @@
         Afficher();
       }
 
-      function VerifierProcheMur(object, event, controlA, controlB) {
-        if (event.which == controlA || event.which == controlB) {
-          if (object.position.x - 0.1 < MIN_X) object.position.x += 0.1;
-          if (object.position.x + 0.1 > MAX_X) object.position.x -= 0.1;
-          if (object.position.y - 0.1 < MIN_Y) object.position.y += 0.1;
-          if (object.position.y + 0.1 > MAX_Y) object.position.y -= 0.1;
-          object.position.z = DEFAULT_Z;
-        }
+      function VerifierProcheMur(object, event) {
+        if (object.position.x - 0.1 < MIN_X) object.position.x += 0.1;
+        if (object.position.x + 0.1 > MAX_X) object.position.x -= 0.1;
+        if (object.position.y - 0.1 < MIN_Y) object.position.y += 0.1;
+        if (object.position.y + 0.1 > MAX_Y) object.position.y -= 0.1;
+        object.position.z = DEFAULT_Z;
       }
 
       $("*").keydown(function (event) {
-        //cube
-        console.log(light.position);
-        if (event.which == Q) cube.rotation.z += 0.05;
-        if (event.which == D) cube.rotation.z -= 0.05;
-        VerifierProcheMur(cube, event, Z, S);
-        if (event.which == Z) cube.translateY(-0.1);
-        if (event.which == S) cube.translateY(0.1);
+        if (event.which == X) light.position.z += 1;
+        if (event.which == Y) light.position.z -= 1;
+
+        VerifierProcheMur(cube, event);
+        if (event.which == Q) light.rotation.z += 0.05;
+        if (event.which == D) light.rotation.z -= 0.05;
+        if (event.which == Z) light.translateY(-30);
+        if (event.which == S) light.translateY(0.1);
 
         //caméra
-        if (event.which == FLECHE_GAUCHE) camera.rotation.y += 0.05;
-        if (event.which == FLECHE_DROITE) camera.rotation.y -= 0.05;
+        if (event.altKey) {
+          if (event.which == FLECHE_GAUCHE) camera.rotation.y += 0.1;
+          if (event.which == FLECHE_DROITE) camera.rotation.y -= 0.1;
+          if (event.which == FLECHE_HAUT) camera.rotation.x += 0.1;
+          if (event.which == FLECHE_BAS) camera.rotation.x -= 0.1;
+        }
+        if (event.which == FLECHE_GAUCHE) camera.translateX(-0.1);
+        if (event.which == FLECHE_DROITE) camera.translateX(0.1);
         VerifierProcheMur(camera, event, FLECHE_HAUT, FLECHE_BAS);
         if (event.which == FLECHE_HAUT) camera.translateZ(-0.1);
         if (event.which == FLECHE_BAS) camera.translateZ(0.1);
