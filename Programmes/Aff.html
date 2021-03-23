@@ -26,10 +26,10 @@
       const Y = 89;
 
       const MIN_X = -5;
-      const MIN_X_ROTATION = -0.64;
       const DEFAULT_X = 0;
+      const MIN_X_ROTATION = -2.94;
       const DEFAULT_X_ROTATION = 1.6;
-      const MAX_X_ROTATION = -2.44;
+      const MAX_X_ROTATION = -0.54;
       const MAX_X = 5;
 
       const MIN_Y = -10.4;
@@ -46,6 +46,7 @@
       var dax = 0.002;
 
       var light;
+      var rotationXCounter = 0;
 
       function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -134,20 +135,15 @@
         if (object.position.y + 0.1 > MAX_Y) object.position.y -= 0.1;
         object.position.z = DEFAULT_Z;
       }
-      function VerifierAngleTete(object, event) {
-        if (object.rotation.x - 0.1 < MIN_X_ROTATION) object.rotation.x += 0.1;
-        if (object.rotation.x + 0.1 > MAX_X_ROTATION) object.rotation.x -= 0.1;
-      }
 
       $("*").keydown(function (event) {
-        if (event.which == X) camera.lookAt(camera.position);
+        if (event.which == X) camera.rotation.x = -1.6;
         if (event.which == Y) light.position.y += 1;
 
         VerifierProcheMur(cube, event);
 
         //caméra
         if (event.altKey) {
-          VerifierAngleTete(camera, event);
           if (event.which == FLECHE_GAUCHE) camera.rotateY(0.1);
           if (event.which == FLECHE_DROITE) camera.rotateY(-0.1);
           if (event.which == FLECHE_HAUT) camera.rotateX(0.1);
