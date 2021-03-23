@@ -109,9 +109,11 @@
         scene.add(cube);
 
         // LUMIERE MAIN PERSONNAGE
-        light = new THREE.DirectionalLight(0xff0000, 2, 2);
+        light = new THREE.DirectionalLight(0xff0000, 0.4, 0.1);
         camera.add(light);
         scene.add(camera);
+        light.position.z = 35;
+        light.position.y = 30;
       }
       function Afficher() {
         renderer.render(scene, camera);
@@ -131,26 +133,23 @@
 
       $("*").keydown(function (event) {
         if (event.which == X) light.position.z += 1;
-        if (event.which == Y) light.position.z -= 1;
+        if (event.which == Y) light.position.y += 1;
 
         VerifierProcheMur(cube, event);
-        if (event.which == Q) light.rotation.z += 0.05;
-        if (event.which == D) light.rotation.z -= 0.05;
-        if (event.which == Z) light.translateY(-30);
-        if (event.which == S) light.translateY(0.1);
 
         //caméra
         if (event.altKey) {
           if (event.which == FLECHE_GAUCHE) camera.rotation.y += 0.1;
           if (event.which == FLECHE_DROITE) camera.rotation.y -= 0.1;
-          if (event.which == FLECHE_HAUT) camera.rotation.x += 0.1;
-          if (event.which == FLECHE_BAS) camera.rotation.x -= 0.1;
+          if (event.which == FLECHE_HAUT) camera.rotation.x -= 0.1;
+          if (event.which == FLECHE_BAS) camera.rotation.x += 0.1;
+        } else {
+          VerifierProcheMur(camera, event, FLECHE_HAUT, FLECHE_BAS);
+          if (event.which == FLECHE_GAUCHE) camera.translateX(-0.1);
+          if (event.which == FLECHE_DROITE) camera.translateX(0.1);
+          if (event.which == FLECHE_HAUT) camera.translateZ(-0.1);
+          if (event.which == FLECHE_BAS) camera.translateZ(0.1);
         }
-        if (event.which == FLECHE_GAUCHE) camera.translateX(-0.1);
-        if (event.which == FLECHE_DROITE) camera.translateX(0.1);
-        VerifierProcheMur(camera, event, FLECHE_HAUT, FLECHE_BAS);
-        if (event.which == FLECHE_HAUT) camera.translateZ(-0.1);
-        if (event.which == FLECHE_BAS) camera.translateZ(0.1);
       });
 
       Init();
