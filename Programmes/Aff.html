@@ -52,7 +52,7 @@
       var tmp_rotation = [DEFAULT_X, DEFAULT_Y, DEFAULT_Z];
       var isCameraHorizontal = true;
       //#endregion VARIABLES
-      
+
       function Init() {
         //#region CAMERA ET SCENE
         container = document.createElement("div");
@@ -117,7 +117,7 @@
         var G_sphere = new THREE.SphereGeometry(0.1, 20, 20);
         var M_sphere = new THREE.MeshLambertMaterial({ color: 0x462400 });
         sphere = new THREE.Mesh(G_sphere, M_sphere);
-        sphere.position.set(MAX_X + 0.5, MAX_Y + 0.5, DEFAULT_Z - 2);
+        sphere.position.set(MAX_X - 0.2, MAX_Y - 0.2, DEFAULT_Z - 2);
         scene.add(sphere);
         //#endregion OBJETS
       }
@@ -137,6 +137,11 @@
       //#endregion
 
       function VerifierProcheMur(object, event) {
+        if (
+          object.position.x + 0.05 > MAX_X &&
+          object.position.y + 0.05 > MAX_Y
+        )
+          alert("sphere!");
         if (object.position.x - 0.05 < MIN_X) object.position.x += 0.05;
         if (object.position.x + 0.05 > MAX_X) object.position.x -= 0.05;
         if (object.position.y - 0.05 < MIN_Y) object.position.y += 0.05;
