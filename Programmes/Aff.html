@@ -147,8 +147,8 @@
           map: texture_canvas
         });
         plane = new THREE.Mesh(G_plane, M_plane);
-
-        plane.position.set(DEFAULT_X, DEFAULT_Y, DEFAULT_Z + 43);
+        plane.position.z += 25;
+        plane.rotateY(3.13); //"rotation miroir"
         scene.add(plane);
 
         // SPHERE - INDICE 2
