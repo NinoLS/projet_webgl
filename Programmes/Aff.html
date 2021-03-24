@@ -120,13 +120,22 @@
         // TEXT - INDICE 1
         var canvas_indice1 = document.createElement("canvas");
         var context = canvas_indice1.getContext("2d");
-        metrics = null;
-        context.font = "normal " + 100 + "px Arial";
-        canvas_indice1.width = 1000;
-        canvas_indice1.height = 1000;
-        context.font = "normal " + 100 + "px Arial";
+        var text = "Indice 1 !";
+
+        context.font = "normal " + canvas_indice1.height + "px Arial";
+        var sizeText = context.measureText(text);
+        canvas_indice1.width = sizeText.width;
+        canvas_indice1.height = 100;
+
+        context.font = "normal " + canvas_indice1.height + "px Arial";
         context.fillStyle = "#FFFFFF";
-        context.fillText("Indice1", 0 / 2, 100 / 2);
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        context.fillText(
+          text,
+          canvas_indice1.width / 2,
+          canvas_indice1.height / 2
+        );
 
         var texture_canvas = new THREE.Texture(canvas_indice1);
         texture_canvas.needsUpdate = true;
