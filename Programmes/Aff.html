@@ -52,11 +52,7 @@
       var tmp_rotation = [DEFAULT_X, DEFAULT_Y, DEFAULT_Z];
       var isCameraHorizontal = true;
       //#endregion VARIABLES
-      function onWindowResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      }
+      
       function Init() {
         //#region CAMERA ET SCENE
         container = document.createElement("div");
@@ -122,8 +118,14 @@
         var M_sphere = new THREE.MeshLambertMaterial({ color: 0x462400 });
         sphere = new THREE.Mesh(G_sphere, M_sphere);
         sphere.position.set(MAX_X + 0.5, MAX_Y + 0.5, DEFAULT_Z - 2);
-        //scene.add(sphere);
+        scene.add(sphere);
         //#endregion OBJETS
+      }
+      //#region FONCTIONS LOGICIELS
+      function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
       }
       function Afficher() {
         renderer.render(scene, camera);
@@ -132,6 +134,7 @@
         requestAnimationFrame(Animer);
         Afficher();
       }
+      //#endregion
 
       function VerifierProcheMur(object, event) {
         if (object.position.x - 0.05 < MIN_X) object.position.x += 0.05;
