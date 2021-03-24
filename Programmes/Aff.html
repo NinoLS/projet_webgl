@@ -51,7 +51,9 @@
       var light;
       var tmp_rotation = [DEFAULT_X, DEFAULT_Y, DEFAULT_Z];
       var isCameraHorizontal = true;
+
       var indice_1 = false; //indice 1 non trouvé (permet de se déclencher 1 seule fois)
+      var plane;
       var indice_2 = false; //indice 2 non trouvé
       //#endregion VARIABLES
 
@@ -115,12 +117,23 @@
         light.position.z = 35;
         light.position.y = 30;
 
+        // TEXT - INDICE 1
+        var G_plane = new THREE.PlaneGeometry(8, 5, 1, 1);
+        var M_plane = new THREE.MeshBasicMaterial({
+          color: 0xffff00,
+          side: THREE.DoubleSide
+        });
+        plane = new THREE.Mesh(G_plane, M_plane);
+        plane.position.set(DEFAULT_X, DEFAULT_Y, DEFAULT_Z + 43);
+        scene.add(plane);
+
         // SPHERE - INDICE 2
         var G_sphere = new THREE.SphereGeometry(0.1, 20, 20);
         var M_sphere = new THREE.MeshLambertMaterial({ color: 0x462400 });
         sphere = new THREE.Mesh(G_sphere, M_sphere);
         sphere.position.set(MAX_X - 0.2, MAX_Y - 0.2, DEFAULT_Z - 2);
         scene.add(sphere);
+
         //#endregion OBJETS
       }
       //#region FONCTIONS LOGICIELS
@@ -138,6 +151,7 @@
       }
       //#endregion
 
+      //#region MES FONCTIONS
       function VerifierProcheMur(object, event) {
         if (
           object.position.x + 0.05 > MAX_X &&
@@ -150,6 +164,13 @@
         if (object.position.y + 0.05 > MAX_Y) object.position.y -= 0.05;
         object.position.z = DEFAULT_Z;
       }
+
+      function indice1_Plafond() {
+        while (plane.position.z > camera.position.z + 4)
+          plane.position.lerp(camera.position, 0.1);
+        alert("Indice 1 !");
+      }
+      //#endregion MES FONCTIONS
 
       $("*").keydown(function (event) {
         //if (event.which == X)
@@ -196,8 +217,8 @@
         //INDICE 1 (PLAFOND)
         if (Math.round(Math.abs(camera.rotation.x * 100)) == 304 && !indice_1) {
           //valeur absolue + arondie 3e chiffre (pour _x=3.04 ou _x=-3.04  <=> plafond !)
-          alert("plafond!");
           indice_1 = true;
+          indice1_Plafond();
         }
         //#endregion MOUVEMENTS CAMERA
       });
