@@ -183,6 +183,8 @@
           object.position.y + 0.05 > MAX_Y &&
           indice_1 == true
         ) {
+          alert("Indice 2!");
+          indice_2 = true;
           indice2_Sphere();
         }
 
@@ -200,9 +202,18 @@
         scene.add(sphere);
       }
       function indice2_Sphere() {
-        alert("Indice 2!");
-        indice_2 = true;
+        requestAnimationFrame(indice2_Sphere);
+        if (sphere.position) move();
+        renderer.render(scene, camera);
       }
+
+      function move(speed) {
+        sphere.position.x -= 0.01;
+        sphere.position.y -= 0.01;
+        sphere.position.z += 0.002;
+        renderer.render(scene, camera);
+      }
+
       //#endregion MES FONCTIONS
 
       $("*").keydown(function (event) {
