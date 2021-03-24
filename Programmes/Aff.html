@@ -131,10 +131,10 @@
       }
 
       function VerifierProcheMur(object, event) {
-        if (object.position.x - 0.1 < MIN_X) object.position.x += 0.1;
-        if (object.position.x + 0.1 > MAX_X) object.position.x -= 0.1;
-        if (object.position.y - 0.1 < MIN_Y) object.position.y += 0.1;
-        if (object.position.y + 0.1 > MAX_Y) object.position.y -= 0.1;
+        if (object.position.x - 0.05 < MIN_X) object.position.x += 0.05;
+        if (object.position.x + 0.05 > MAX_X) object.position.x -= 0.05;
+        if (object.position.y - 0.05 < MIN_Y) object.position.y += 0.05;
+        if (object.position.y + 0.05 > MAX_Y) object.position.y -= 0.05;
         object.position.z = DEFAULT_Z;
       }
 
@@ -177,16 +177,16 @@
             isCameraHorizontal = false;
           }
 
-          if (event.which == FLECHE_GAUCHE) camera.rotateY(0.1);
-          if (event.which == FLECHE_DROITE) camera.rotateY(-0.1);
-          if (event.which == FLECHE_HAUT) camera.rotateX(0.1);
-          if (event.which == FLECHE_BAS) camera.rotateX(-0.1);
+          if (event.which == FLECHE_GAUCHE) camera.rotateY(0.05);
+          if (event.which == FLECHE_DROITE) camera.rotateY(-0.05);
+          if (event.which == FLECHE_HAUT) camera.rotateX(0.05);
+          if (event.which == FLECHE_BAS) camera.rotateX(-0.05);
         } else {
           VerifierProcheMur(camera, event);
-          if (event.which == FLECHE_GAUCHE) camera.translateX(-0.1);
-          if (event.which == FLECHE_DROITE) camera.translateX(0.1);
-          if (event.which == FLECHE_HAUT) camera.translateZ(-0.1);
-          if (event.which == FLECHE_BAS) camera.translateZ(0.1);
+          if (event.which == FLECHE_GAUCHE) camera.translateX(-0.05);
+          if (event.which == FLECHE_DROITE) camera.translateX(0.05);
+          if (event.which == FLECHE_HAUT) camera.translateZ(-0.05);
+          if (event.which == FLECHE_BAS) camera.translateZ(0.05);
         }
       });
 
