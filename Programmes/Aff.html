@@ -118,12 +118,27 @@
         light.position.y = 30;
 
         // TEXT - INDICE 1
-        var G_plane = new THREE.PlaneGeometry(8, 5, 1, 1);
+        var canvas_indice1 = document.createElement("canvas");
+        var context = canvas_indice1.getContext("2d");
+        metrics = null;
+        context.font = "normal " + 100 + "px Arial";
+        canvas_indice1.width = 1000;
+        canvas_indice1.height = 1000;
+        context.font = "normal " + 100 + "px Arial";
+        context.fillStyle = "#FFFFFF";
+        context.fillText("Indice1", 0 / 2, 100 / 2);
+
+        var texture_canvas = new THREE.Texture(canvas_indice1);
+        texture_canvas.needsUpdate = true;
+
+        var G_plane = new THREE.PlaneGeometry(8, 5);
         var M_plane = new THREE.MeshBasicMaterial({
-          color: 0xffff00,
-          side: THREE.DoubleSide
+          color: 0xffffff,
+          side: THREE.DoubleSide,
+          map: texture_canvas
         });
         plane = new THREE.Mesh(G_plane, M_plane);
+
         plane.position.set(DEFAULT_X, DEFAULT_Y, DEFAULT_Z + 43);
         scene.add(plane);
 
