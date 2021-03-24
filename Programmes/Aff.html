@@ -142,7 +142,7 @@
 
         var G_plane = new THREE.PlaneGeometry(8, 5);
         var M_plane = new THREE.MeshBasicMaterial({
-          color: 0xffffff,
+          color: 0xffaa00,
           side: THREE.DoubleSide,
           map: texture_canvas
         });
@@ -156,7 +156,6 @@
         var M_sphere = new THREE.MeshLambertMaterial({ color: 0x462400 });
         sphere = new THREE.Mesh(G_sphere, M_sphere);
         sphere.position.set(MAX_X - 0.2, MAX_Y - 0.2, DEFAULT_Z - 2);
-        scene.add(sphere);
 
         //#endregion OBJETS
       }
@@ -179,9 +178,13 @@
       function VerifierProcheMur(object, event) {
         if (
           object.position.x + 0.05 > MAX_X &&
-          object.position.y + 0.05 > MAX_Y
-        )
+          object.position.y + 0.05 > MAX_Y &&
+          indice_1
+        ) {
           alert("sphere!");
+          indice_2 = true;
+        }
+
         if (object.position.x - 0.05 < MIN_X) object.position.x += 0.05;
         if (object.position.x + 0.05 > MAX_X) object.position.x -= 0.05;
         if (object.position.y - 0.05 < MIN_Y) object.position.y += 0.05;
@@ -193,6 +196,7 @@
         while (plane.position.z > camera.position.z + 4)
           plane.position.lerp(camera.position, 0.1);
         alert("Indice 1 !");
+        scene.add(sphere);
       }
       //#endregion MES FONCTIONS
 
