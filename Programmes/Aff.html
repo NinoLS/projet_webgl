@@ -39,6 +39,7 @@
 
       const MIN_Z = 0;
       const DEFAULT_Z = -20;
+      const DEFAULT_Z_ROTATION = 0;
       const MAX_Z = 0;
 
       var container;
@@ -46,7 +47,8 @@
       var dax = 0.002;
 
       var light;
-      var rotationXCounter = 0;
+      var tmp_rotation = [DEFAULT_X, DEFAULT_Y, DEFAULT_Z];
+      var isCameraHorizontal = true;
 
       function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -137,13 +139,44 @@
       }
 
       $("*").keydown(function (event) {
-        if (event.which == X) camera.rotation.x = -1.6;
+        if (event.which == X)
+          camera.rotation.set(
+            DEFAULT_X_ROTATION,
+            DEFAULT_Y_ROTATION,
+            DEFAULT_Z_ROTATION
+          );
+
         if (event.which == Y) light.position.y += 1;
 
         VerifierProcheMur(cube, event);
 
         //caméra
         if (event.altKey) {
+          //si l'on veut modifier horizontalement l'angle mais que
+          //l'angle de la caméra a été verticalement modifié
+          if (
+            (event.which == FLECHE_GAUCHE || event.which == FLECHE_DROITE) &&
+            !isCameraHorizontal
+          ) {
+            camera.rotation.set(
+              //on replace correctement la caméra où elle était avant la rotation verticale
+              tmp_rotation[0],
+              tmp_rotation[1],
+              tmp_rotation[2]
+            );
+            isCameraHorizontal = true;
+          }
+
+          if (event.which == FLECHE_HAUT || event.which == FLECHE_BAS) {
+            if (isCameraHorizontal) {
+              //s'il s'agit du 1er mouvement "de tete", on stocke l'angle actuelle
+              tmp_rotation[0] = camera.rotation.x;
+              tmp_rotation[1] = camera.rotation.y;
+              tmp_rotation[2] = camera.rotation.z;
+            }
+            isCameraHorizontal = false;
+          }
+
           if (event.which == FLECHE_GAUCHE) camera.rotateY(0.1);
           if (event.which == FLECHE_DROITE) camera.rotateY(-0.1);
           if (event.which == FLECHE_HAUT) camera.rotateX(0.1);
