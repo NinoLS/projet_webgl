@@ -14,6 +14,7 @@
     <script src="../Libs/OBJLoader.js"></script>
 
     <script>
+      //#region CONSTANTES
       const FLECHE_GAUCHE = 37;
       const FLECHE_DROITE = 39;
       const FLECHE_HAUT = 38;
@@ -41,7 +42,8 @@
       const DEFAULT_Z = -20;
       const DEFAULT_Z_ROTATION = 0;
       const MAX_Z = 0;
-
+      //#endregion CONSTANTES
+      //#region VARIABLES
       var container;
       var camera, scene, renderer;
       var dax = 0.002;
@@ -49,13 +51,14 @@
       var light;
       var tmp_rotation = [DEFAULT_X, DEFAULT_Y, DEFAULT_Z];
       var isCameraHorizontal = true;
-
+      //#endregion VARIABLES
       function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
       }
       function Init() {
+        //#region CAMERA ET SCENE
         container = document.createElement("div");
         document.body.appendChild(container);
 
@@ -74,19 +77,17 @@
 
         // scene
         scene = new THREE.Scene();
-
         var ambient = new THREE.AmbientLight(0x221100);
         scene.add(ambient);
-
+        //#endregion CAMERA ET SCENE
+        //#region TEXTURE ET MODELE
         // texture
-
         var manager = new THREE.LoadingManager();
         manager.onProgress = function (item, loaded, total) {
           console.log(item, loaded, total);
         };
 
         var texture = new THREE.Texture();
-
         var loader = new THREE.ImageLoader(manager);
         loader.load("../TranseptSud/TranseptTexture4096.jpg", function (image) {
           texture.image = image;
@@ -107,20 +108,15 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         container.appendChild(renderer.domElement);
         window.addEventListener("resize", onWindowResize, false);
-
-        // FORME LUMIERE
-        var GCube = new THREE.SphereGeometry(0.1, 20, 20);
-        var MCube = new THREE.MeshLambertMaterial({ color: 0x251400 });
-        cube = new THREE.Mesh(GCube, MCube);
-        cube.position.set(MAX_X - 0.2, MAX_Y - 0.2, DEFAULT_Z);
-        scene.add(cube);
-
+        //#endregion TEXTURE ET MODELE
+        //#region OBJETS
         // LUMIERE MAIN PERSONNAGE
         light = new THREE.DirectionalLight(0xff9a00, 1, 1);
         camera.add(light);
         scene.add(camera);
         light.position.z = 35;
         light.position.y = 30;
+        //#endregion OBJETS
       }
       function Afficher() {
         renderer.render(scene, camera);
@@ -139,18 +135,10 @@
       }
 
       $("*").keydown(function (event) {
-        if (event.which == X)
-          camera.rotation.set(
-            DEFAULT_X_ROTATION,
-            DEFAULT_Y_ROTATION,
-            DEFAULT_Z_ROTATION
-          );
+        //if (event.which == X)
+        //if (event.which == Y)
 
-        if (event.which == Y) light.position.y += 1;
-
-        VerifierProcheMur(cube, event);
-
-        //caméra
+        //#region MOUVEMENTS CAMERA
         if (event.altKey) {
           //si l'on veut modifier horizontalement l'angle mais que
           //l'angle de la caméra a été verticalement modifié
@@ -188,6 +176,7 @@
           if (event.which == FLECHE_HAUT) camera.translateZ(-0.05);
           if (event.which == FLECHE_BAS) camera.translateZ(0.05);
         }
+        //#endregion MOUVEMENTS CAMERA
       });
 
       Init();
