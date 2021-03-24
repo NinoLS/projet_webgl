@@ -51,6 +51,8 @@
       var light;
       var tmp_rotation = [DEFAULT_X, DEFAULT_Y, DEFAULT_Z];
       var isCameraHorizontal = true;
+      var indice_1 = false; //indice 1 non trouvé (permet de se déclencher 1 seule fois)
+      var indice_2 = false; //indice 2 non trouvé
       //#endregion VARIABLES
 
       function Init() {
@@ -190,6 +192,12 @@
           if (event.which == FLECHE_DROITE) camera.translateX(0.05);
           if (event.which == FLECHE_HAUT) camera.translateZ(-0.05);
           if (event.which == FLECHE_BAS) camera.translateZ(0.05);
+        }
+        //INDICE 1 (PLAFOND)
+        if (Math.round(Math.abs(camera.rotation.x * 100)) == 304 && !indice_1) {
+          //valeur absolue + arondie 3e chiffre (pour _x=3.04 ou _x=-3.04  <=> plafond !)
+          alert("plafond!");
+          indice_1 = true;
         }
         //#endregion MOUVEMENTS CAMERA
       });
