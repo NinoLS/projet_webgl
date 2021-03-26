@@ -157,7 +157,7 @@
 
         // SPHERE - INDICE 2
         var G_sphere = new THREE.SphereGeometry(0.1, 20, 20);
-        var M_sphere = new THREE.MeshLambertMaterial({ color: 0x462400 });
+        var M_sphere = new THREE.MeshLambertMaterial({ color: 0x882400 });
         sphere = new THREE.Mesh(G_sphere, M_sphere);
         sphere.position.set(MAX_X - 0.2, MAX_Y - 0.2, DEFAULT_Z - 2);
 
@@ -209,7 +209,7 @@
 
         // 2e sphere
         var G_sphere2 = new THREE.SphereGeometry(0.1, 20, 20);
-        var M_sphere2 = new THREE.MeshLambertMaterial({ color: 0x462400 });
+        var M_sphere2 = new THREE.MeshLambertMaterial({ color: 0x168a16 });
         sphere2 = new THREE.Mesh(G_sphere2, M_sphere2);
         scene.add(sphere2);
         sphere2.position.set(
@@ -239,8 +239,8 @@
         } else {
           //2 nouvelles spheres
           var G_sphere3 = new THREE.SphereGeometry(0.1, 20, 20);
-          var M_sphere3 = new THREE.MeshLambertMaterial({ color: 0xaa2400 });
-          sphere3 = new THREE.Mesh(G_sphere3, M_sphere3);
+          var M_sphere3 = new THREE.MeshLambertMaterial({ color: 0xc2ad23 }); //jaune et pas bleu
+          sphere3 = new THREE.Mesh(G_sphere3, M_sphere3); //le bleu ne se verrait pas (ambient)
           sphere4 = new THREE.Mesh(G_sphere3, M_sphere3);
           scene.add(sphere3);
           scene.add(sphere4);
@@ -272,10 +272,23 @@
           renderer.render(scene, camera);
         } else {
           //sphere 3 et 4 "fusionnées"
-          if (sphere3.position.y > MIN_Y - 1)
+          if (sphere3.position.y > MIN_Y - 1) {
             requestAnimationFrame(sphere34_animation);
-          sphere3.position.y -= 0.04;
-          sphere4.position.y -= 0.04;
+            sphere3.position.y -= 0.04;
+            sphere4.position.y -= 0.04;
+          } else spheresFusion_animation();
+        }
+      }
+      function spheresFusion_animation() {
+        if (Math.round(sphere.position.y * 30) != -180) {
+          requestAnimationFrame(spheresFusion_animation); //boucle
+          sphere.position.y -= 0.02;
+          sphere2.position.y -= 0.02;
+          sphere3.position.y += 0.02;
+
+          sphere.position.x += 0.02201;
+          sphere2.position.x -= 0.02201;
+          renderer.render(scene, camera);
         }
       }
       //#endregion MES FONCTIONS
