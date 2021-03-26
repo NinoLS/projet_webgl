@@ -55,6 +55,7 @@
       var indice_1 = false; //indice 1 non trouvé (permet de se déclencher 1 seule fois)
       var plane;
       var indice_2 = false; //indice 2 non trouvé
+      var sphere, sphere2;
       //#endregion VARIABLES
 
       function Init() {
@@ -181,7 +182,8 @@
         if (
           object.position.x + 0.05 > MAX_X &&
           object.position.y + 0.05 > MAX_Y &&
-          indice_1 == true
+          indice_1 &&
+          !indice_2
         ) {
           alert("Indice 2!");
           indice_2 = true;
@@ -202,15 +204,32 @@
         scene.add(sphere);
       }
       function indice2_Sphere() {
-        requestAnimationFrame(indice2_Sphere);
-        if (sphere.position) move();
+        if (sphere.position.z < -19.85) {
+          sphere_animation();
+        }
+
+        // 2e sphere
+        var G_sphere2 = new THREE.SphereGeometry(0.1, 20, 20);
+        var M_sphere2 = new THREE.MeshLambertMaterial({ color: 0x462400 });
+        sphere2 = new THREE.Mesh(G_sphere2, M_sphere2);
+        scene.add(sphere2);
+        sphere2.position.set(
+          sphere.position.x,
+          sphere.position.y,
+          sphere.position.z
+        );
         renderer.render(scene, camera);
       }
 
-      function move(speed) {
-        sphere.position.x -= 0.01;
-        sphere.position.y -= 0.01;
-        sphere.position.z += 0.002;
+      function sphere_animation() {
+        requestAnimationFrame(sphere_animation); //boucle
+        move(sphere);
+        renderer.render(scene, camera);
+      }
+      function move(object) {
+        object.position.x -= 0.02;
+        object.position.y -= 0.02;
+        object.position.z += 0.004;
         renderer.render(scene, camera);
       }
 
