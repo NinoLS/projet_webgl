@@ -293,12 +293,14 @@
           renderer.render(scene, camera);
         } else {
           //sphere blanche
-          sphere.position.x = sphere2.position = sphere3.position = 100;
+          hideObject(sphere);
+          hideObject(sphere2);
+          hideObject(sphere3);
           sphere5_animation();
         }
       }
       function sphere5_animation() {
-        if (sphere5_size < 10) {
+        if (sphere5_size < 5) {
           sphere5_size += 0.05;
           var G_sphere5 = new THREE.SphereGeometry(sphere5_size, 20, 20);
           var M_sphere5 = new THREE.MeshLambertMaterial({ color: 0xffffff });
@@ -311,15 +313,13 @@
           );
           requestAnimationFrame(sphere5_animation);
           Afficher();
-          sphere5.position.x = 100;
+          hideObject(sphere5);
         } else {
-          //
+          hideObject(sphere4);
         }
       }
-      function removeEntity(object) {
-        var selectedObject = scene.getObjectByName(object.name);
-        scene.remove(selectedObject);
-        Afficher();
+      function hideObject(object) {
+        object.position.x = 100;
       }
       //#endregion MES FONCTIONS
 
