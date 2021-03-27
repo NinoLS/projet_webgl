@@ -148,7 +148,7 @@
           opacity: 0.5,
           transparent: true,
           side: THREE.DoubleSide,
-          map: texture_canvas
+          map: texture_canvas,
         });
         plane = new THREE.Mesh(G_plane, M_plane);
         plane.position.z += 25;
@@ -265,19 +265,19 @@
         ) {
           requestAnimationFrame(sphere34_animation); //boucle
           sphere3.position.x += 0.04;
-          sphere3.position.y -= 0.04;
+          sphere3.position.y -= 0.0735;
 
           sphere4.position.x -= 0.04;
-          sphere4.position.y -= 0.04;
+          sphere4.position.y -= 0.0735;
           renderer.render(scene, camera);
-        } else {
+        } /* else {
           //sphere 3 et 4 "fusionnées"
           if (sphere3.position.y > MIN_Y - 1) {
             requestAnimationFrame(sphere34_animation);
             sphere3.position.y -= 0.04;
             sphere4.position.y -= 0.04;
           } else spheresFusion_animation();
-        }
+        } */
       }
       function spheresFusion_animation() {
         if (Math.round(sphere.position.y * 30) != -180) {
