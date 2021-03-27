@@ -48,7 +48,7 @@
       var camera, scene, renderer;
       var dax = 0.002;
 
-      var light;
+      var ambient, light;
       var tmp_rotation = [DEFAULT_X, DEFAULT_Y, DEFAULT_Z];
       var isCameraHorizontal = true;
 
@@ -57,6 +57,7 @@
       var indice_2 = false; //indice 2 non trouvé
       var sphere, sphere2, sphere3, sphere4, sphere5;
       var sphere5_size = 0.1;
+      var ambient_color = 0x221100;
 
       //#endregion VARIABLES
 
@@ -80,7 +81,7 @@
 
         // scene
         scene = new THREE.Scene();
-        var ambient = new THREE.AmbientLight(0x221100);
+        ambient = new THREE.AmbientLight(0x221100);
         scene.add(ambient);
         //#endregion CAMERA ET SCENE
         //#region TEXTURE ET MODELE
@@ -206,6 +207,7 @@
         scene.add(sphere);
       }
       function indice2_Sphere() {
+        hideObject(plane);
         sphere_animation();
 
         // 2e sphere
@@ -296,10 +298,10 @@
           hideObject(sphere);
           hideObject(sphere2);
           hideObject(sphere3);
-          sphere5_animation();
+          sphere5_animation1();
         }
       }
-      function sphere5_animation() {
+      function sphere5_animation1() {
         if (sphere5_size < 5) {
           sphere5_size += 0.05;
           var G_sphere5 = new THREE.SphereGeometry(sphere5_size, 20, 20);
@@ -311,11 +313,35 @@
             sphere4.position.y,
             sphere4.position.z
           );
-          requestAnimationFrame(sphere5_animation);
+          requestAnimationFrame(sphere5_animation1);
+          Afficher();
+          hideObject(sphere5);
+        } else {
+          sphere5_animation2();
+        }
+      }
+      function sphere5_animation2() {
+        if (sphere5_size > 0.1) {
+          sphere5_size -= 0.15;
+          var G_sphere5 = new THREE.SphereGeometry(sphere5_size, 20, 20);
+          var M_sphere5 = new THREE.MeshLambertMaterial({ color: 0xffffff });
+          sphere5 = new THREE.Mesh(G_sphere5, M_sphere5);
+          scene.add(sphere5);
+          sphere5.position.set(
+            sphere4.position.x,
+            sphere4.position.y,
+            sphere4.position.z
+          );
+          requestAnimationFrame(sphere5_animation2);
           Afficher();
           hideObject(sphere5);
         } else {
           hideObject(sphere4);
+          ambient_color += 000001;
+          ambient = new THREE.AmbientLight(ambient_color);
+          scene.add(ambient);
+          requestAnimationFrame(sphere5_animation2);
+          Afficher();
         }
       }
       function hideObject(object) {
