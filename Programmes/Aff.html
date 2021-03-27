@@ -55,7 +55,8 @@
       var indice_1 = false; //indice 1 non trouvé (permet de se déclencher 1 seule fois)
       var plane;
       var indice_2 = false; //indice 2 non trouvé
-      var sphere, sphere2, sphere3, sphere4;
+      var sphere, sphere2, sphere3, sphere4, sphere5;
+      var sphere5_size = 0.1;
 
       //#endregion VARIABLES
 
@@ -270,26 +271,55 @@
           sphere4.position.x -= 0.04;
           sphere4.position.y -= 0.0735;
           renderer.render(scene, camera);
-        } /* else {
+        } else {
           //sphere 3 et 4 "fusionnées"
           if (sphere3.position.y > MIN_Y - 1) {
             requestAnimationFrame(sphere34_animation);
             sphere3.position.y -= 0.04;
             sphere4.position.y -= 0.04;
           } else spheresFusion_animation();
-        } */
+        }
       }
       function spheresFusion_animation() {
         if (Math.round(sphere.position.y * 30) != -180) {
           requestAnimationFrame(spheresFusion_animation); //boucle
-          sphere.position.y -= 0.02;
-          sphere2.position.y -= 0.02;
-          sphere3.position.y += 0.02;
+          sphere.position.y -= 0.04 * 2;
+          sphere2.position.y -= 0.04 * 2;
+          sphere3.position.y += 0.04 * 2;
+          sphere4.position.y += 0.04 * 2;
 
-          sphere.position.x += 0.02201;
-          sphere2.position.x -= 0.02201;
+          sphere.position.x += 0.044 * 2;
+          sphere2.position.x -= 0.044 * 2;
           renderer.render(scene, camera);
+        } else {
+          //sphere blanche
+          sphere.position.x = sphere2.position = sphere3.position = 100;
+          sphere5_animation();
         }
+      }
+      function sphere5_animation() {
+        if (sphere5_size < 10) {
+          sphere5_size += 0.05;
+          var G_sphere5 = new THREE.SphereGeometry(sphere5_size, 20, 20);
+          var M_sphere5 = new THREE.MeshLambertMaterial({ color: 0xffffff });
+          sphere5 = new THREE.Mesh(G_sphere5, M_sphere5);
+          scene.add(sphere5);
+          sphere5.position.set(
+            sphere4.position.x,
+            sphere4.position.y,
+            sphere4.position.z
+          );
+          requestAnimationFrame(sphere5_animation);
+          Afficher();
+          sphere5.position.x = 100;
+        } else {
+          //
+        }
+      }
+      function removeEntity(object) {
+        var selectedObject = scene.getObjectByName(object.name);
+        scene.remove(selectedObject);
+        Afficher();
       }
       //#endregion MES FONCTIONS
 
