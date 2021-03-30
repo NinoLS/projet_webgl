@@ -206,6 +206,8 @@
         alert("Indice 1 !");
         scene.add(sphere);
       }
+      
+      //#region INDICE 2 - SPHERES
       function indice2_Sphere() {
         hideObject(plane);
         sphere_animation();
@@ -222,7 +224,6 @@
         );
         sphere2_animation();
       }
-
       function sphere_animation() {
         if (sphere.position.z < -19.85) {
           requestAnimationFrame(sphere_animation); //boucle
@@ -345,9 +346,10 @@
         light.intensity = ambient.intensity = 0;
         light.visible = ambient.visible = false;
         ambient_color = generateRandomLightColor();
-        ambient = new THREE.AmbientLight(ambient_color);
+        ambient = new THREE.AmbientLight(ambient_color);  
         scene.add(ambient);
       }
+      //#endregion
 
       function hideObject(object) {
         object.position.x = 100;
