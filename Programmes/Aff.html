@@ -58,6 +58,8 @@
       var sphere, sphere2, sphere3, sphere4;
       var sphere4_size = 0.1;
       var ambient_color = 0x221100;
+      var indice_3 = false; //indice 3 non trouvé
+      var cube;
 
       //#endregion VARIABLES
 
@@ -200,13 +202,14 @@
         object.position.z = DEFAULT_Z;
       }
 
+      //#region INDICE 1 - PLAFOND
       function indice1_Plafond() {
         while (plane.position.z > camera.position.z + 4)
           plane.position.lerp(camera.position, 0.1);
         alert("Indice 1 !");
         scene.add(sphere);
       }
-
+      //#endregion
       //#region INDICE 2 - SPHERES
       function indice2_Sphere() {
         toggleObject(plane);
@@ -321,13 +324,28 @@
           toggleObject(sphere4);
         } else {
           toggleObject(sphere3);
+          ground_animation();
         }
       }
       function light_animation() {
         ambient.color.setRGB(1, Math.random(), Math.random());
       }
-      //#endregion
+      function ground_animation() {
+        var GCube = new THREE.CubeGeometry(0.2, 0.2, 0.2);
+        var MCube = new THREE.MeshPhongMaterial({
+          ambient: 0xffffff,
+          color: 0xffffff
+        });
+        cube = new THREE.Mesh(GCube, MCube);
+        cube.position = sphere4.position;
+        cube.position.z -= 2.2;
+        scene.add(cube);
+      }
 
+      //#endregion
+      //#region INDICE 3 - ENTREE SUR CARRE AU SOL
+
+      //#endregion
       function toggleObject(object) {
         object.visible = !object.visible;
       }
