@@ -55,8 +55,8 @@
       var indice_1 = false; //indice 1 non trouvé (permet de se déclencher 1 seule fois)
       var plane;
       var indice_2 = false; //indice 2 non trouvé
-      var sphere, sphere2, sphere3, sphere4, sphere5;
-      var sphere5_size = 0.1;
+      var sphere, sphere2, sphere3, sphere4;
+      var sphere4_size = 0.1;
       var ambient_color = 0x221100;
 
       //#endregion VARIABLES
@@ -206,7 +206,7 @@
         alert("Indice 1 !");
         scene.add(sphere);
       }
-      
+
       //#region INDICE 2 - SPHERES
       function indice2_Sphere() {
         hideObject(plane);
@@ -241,112 +241,93 @@
           sphere2.position.z += 0.008;
           renderer.render(scene, camera);
         } else {
-          //2 nouvelles spheres
+          //une nouvelle sphere
           var G_sphere3 = new THREE.SphereGeometry(0.1, 20, 20);
           var M_sphere3 = new THREE.MeshLambertMaterial({ color: 0xc2ad23 }); //jaune et pas bleu
           sphere3 = new THREE.Mesh(G_sphere3, M_sphere3); //le bleu ne se verrait pas (ambient)
-          sphere4 = new THREE.Mesh(G_sphere3, M_sphere3);
           scene.add(sphere3);
-          scene.add(sphere4);
 
-          sphere3.position.set(
-            sphere.position.x,
-            sphere.position.y,
-            sphere.position.z
-          );
-          sphere4.position.set(
-            sphere2.position.x,
-            sphere2.position.y,
-            sphere2.position.z
-          );
-          sphere34_animation();
+          sphere3.position.set((MAX_X + MIN_X) / 2, MIN_Y, DEFAULT_Z - 2);
+          sphere3_animation();
         }
       }
-      function sphere34_animation() {
+      function sphere3_animation() {
         if (
-          Math.round(sphere3.position.x * 30) !=
-          Math.round(sphere4.position.x * 30)
+          Math.round(sphere3.position.z * 10) !=
+          Math.round(sphere2.position.z * 10)
         ) {
-          requestAnimationFrame(sphere34_animation); //boucle
-          sphere3.position.x += 0.04;
-          sphere3.position.y -= 0.0735;
-
-          sphere4.position.x -= 0.04;
-          sphere4.position.y -= 0.0735;
+          requestAnimationFrame(sphere3_animation); //boucle
+          sphere3.position.z += 0.04;
           renderer.render(scene, camera);
         } else {
-          //sphere 3 et 4 "fusionnées"
-          if (sphere3.position.y > MIN_Y - 1) {
-            requestAnimationFrame(sphere34_animation);
-            sphere3.position.y -= 0.04;
-            sphere4.position.y -= 0.04;
-          } else spheresFusion_animation();
+          spheresFusion_animation();
         }
       }
       function spheresFusion_animation() {
-        if (Math.round(sphere.position.y * 30) != -180) {
+        if (
+          Math.round(sphere.position.x * 10) !=
+          Math.round(sphere3.position.x * 10)
+        ) {
           requestAnimationFrame(spheresFusion_animation); //boucle
           sphere.position.y -= 0.04 * 2;
           sphere2.position.y -= 0.04 * 2;
-          sphere3.position.y += 0.04 * 2;
-          sphere4.position.y += 0.04 * 2;
+          sphere3.position.y += 0.032 * 2;
 
           sphere.position.x += 0.044 * 2;
           sphere2.position.x -= 0.044 * 2;
           renderer.render(scene, camera);
         } else {
-          //sphere blanche
+          // sphere blanche
           hideObject(sphere);
           hideObject(sphere2);
-          hideObject(sphere3);
-          sphere5_animation1();
+          sphere4_animation1();
         }
       }
-      function sphere5_animation1() {
-        if (sphere5_size < 5) {
-          sphere5_size += 0.15;
-          var G_sphere5 = new THREE.SphereGeometry(sphere5_size, 20, 20);
-          var M_sphere5 = new THREE.MeshLambertMaterial({ color: 0xffffff });
-          sphere5 = new THREE.Mesh(G_sphere5, M_sphere5);
-          scene.add(sphere5);
-          sphere5.position.set(
-            sphere4.position.x,
-            sphere4.position.y,
-            sphere4.position.z
+      function sphere4_animation1() {
+        if (sphere4_size < 5) {
+          sphere4_size += 0.15;
+          var G_sphere4 = new THREE.SphereGeometry(sphere4_size, 20, 20);
+          var M_sphere4 = new THREE.MeshLambertMaterial({ color: 0xffffff });
+          sphere4 = new THREE.Mesh(G_sphere4, M_sphere4);
+          scene.add(sphere4);
+          sphere4.position.set(
+            sphere3.position.x,
+            sphere3.position.y,
+            sphere3.position.z
           );
           light_animation();
-          requestAnimationFrame(sphere5_animation1);
+          requestAnimationFrame(sphere4_animation1);
           Afficher();
-          hideObject(sphere5);
-        } else {
-          sphere5_animation2();
-        }
-      }
-      function sphere5_animation2() {
-        if (sphere5_size > 0.1) {
-          sphere5_size -= 0.2;
-          var G_sphere5 = new THREE.SphereGeometry(sphere5_size, 20, 20);
-          var M_sphere5 = new THREE.MeshLambertMaterial({ color: 0xffffff });
-          sphere5 = new THREE.Mesh(G_sphere5, M_sphere5);
-          scene.add(sphere5);
-          sphere5.position.set(
-            sphere4.position.x,
-            sphere4.position.y,
-            sphere4.position.z
-          );
-          light_animation();
-          requestAnimationFrame(sphere5_animation2);
-          Afficher();
-          hideObject(sphere5);
-        } else {
           hideObject(sphere4);
+        } else {
+          sphere4_animation2();
+        }
+      }
+      function sphere4_animation2() {
+        if (sphere4_size > 0.1) {
+          sphere4_size -= 0.2;
+          var G_sphere5 = new THREE.SphereGeometry(sphere4_size, 20, 20);
+          var M_sphere5 = new THREE.MeshLambertMaterial({ color: 0xffffff });
+          sphere4 = new THREE.Mesh(G_sphere5, M_sphere5);
+          scene.add(sphere4);
+          sphere4.position.set(
+            sphere3.position.x,
+            sphere3.position.y,
+            sphere3.position.z
+          );
+          light_animation();
+          requestAnimationFrame(sphere4_animation2);
+          Afficher();
+          hideObject(sphere4);
+        } else {
+          hideObject(sphere3);
         }
       }
       function light_animation() {
         light.intensity = ambient.intensity = 0;
         light.visible = ambient.visible = false;
         ambient_color = generateRandomLightColor();
-        ambient = new THREE.AmbientLight(ambient_color);  
+        ambient = new THREE.AmbientLight(ambient_color);
         scene.add(ambient);
       }
       //#endregion
