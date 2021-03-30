@@ -42,6 +42,7 @@
       const DEFAULT_Z = -20;
       const DEFAULT_Z_ROTATION = 0;
       const MAX_Z = 0;
+      const AMBIENT_COLOR = 0x221100;
       //#endregion CONSTANTES
       //#region VARIABLES
       var container;
@@ -57,7 +58,6 @@
       var indice_2 = false; //indice 2 non trouvé
       var sphere, sphere2, sphere3, sphere4;
       var sphere4_size = 0.1;
-      var ambient_color = 0x221100;
       var indice_3 = false; //indice 3 non trouvé
       var cube;
 
@@ -324,23 +324,28 @@
           toggleObject(sphere4);
         } else {
           toggleObject(sphere3);
-          ground_animation();
+
+          //lumiere de la lampe remise à la "normale"
+          ambient.color.set(AMBIENT_COLOR);
+
+          //apparition du bouton-cube (indice 3 )
+          var GCube = new THREE.CubeGeometry(0.2, 0.2, 0.2);
+          var MCube = new THREE.MeshPhongMaterial({
+            ambient: 0xffffff,
+            color: 0xffffff,
+            opacity: 0,
+            transparent: true
+          });
+          cube = new THREE.Mesh(GCube, MCube);
+          cube.position = sphere4.position;
+          cube.position.z -= 2.2;
+          scene.add(cube);
         }
       }
       function light_animation() {
         ambient.color.setRGB(1, Math.random(), Math.random());
       }
-      function ground_animation() {
-        var GCube = new THREE.CubeGeometry(0.2, 0.2, 0.2);
-        var MCube = new THREE.MeshPhongMaterial({
-          ambient: 0xffffff,
-          color: 0xffffff
-        });
-        cube = new THREE.Mesh(GCube, MCube);
-        cube.position = sphere4.position;
-        cube.position.z -= 2.2;
-        scene.add(cube);
-      }
+      function ground_animation() {}
 
       //#endregion
       //#region INDICE 3 - ENTREE SUR CARRE AU SOL
@@ -399,6 +404,19 @@
           //valeur absolue + arondie 3e chiffre (pour _x=3.04 ou _x=-3.04  <=> plafond !)
           indice_1 = true;
           indice1_Plafond();
+        }
+
+        //INDICE 3 (BOUTON)
+        if (
+          Math.round(camera.position.x * 10) ==
+            Math.round(cube.position.x * 100) &&
+          Math.round(camera.position.y * 10) ==
+            Math.round(cube.position.y * 10) &&
+          indice_2 &&
+          !indice_3
+        ) {
+          indice_3 = true;
+          ground_animation();
         }
         //#endregion MOUVEMENTS CAMERA
       });
