@@ -209,7 +209,7 @@
 
       //#region INDICE 2 - SPHERES
       function indice2_Sphere() {
-        hideObject(plane);
+        toggleObject(plane);
         sphere_animation();
 
         // 2e sphere
@@ -278,8 +278,8 @@
           renderer.render(scene, camera);
         } else {
           // sphere blanche
-          hideObject(sphere);
-          hideObject(sphere2);
+          toggleObject(sphere);
+          toggleObject(sphere2);
           sphere4_animation1();
         }
       }
@@ -298,7 +298,7 @@
           light_animation();
           requestAnimationFrame(sphere4_animation1);
           Afficher();
-          hideObject(sphere4);
+          toggleObject(sphere4);
         } else {
           sphere4_animation2();
         }
@@ -318,9 +318,9 @@
           light_animation();
           requestAnimationFrame(sphere4_animation2);
           Afficher();
-          hideObject(sphere4);
+          toggleObject(sphere4);
         } else {
-          hideObject(sphere3);
+          toggleObject(sphere3);
         }
       }
       function light_animation() {
