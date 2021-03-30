@@ -159,7 +159,7 @@
 
         // SPHERE - INDICE 2
         var G_sphere = new THREE.SphereGeometry(0.1, 20, 20);
-        var M_sphere = new THREE.MeshLambertMaterial({ color: 0x882400 });
+        var M_sphere = new THREE.MeshLambertMaterial({ color: 0xd12828 });
         sphere = new THREE.Mesh(G_sphere, M_sphere);
         sphere.position.set(MAX_X - 0.2, MAX_Y - 0.2, DEFAULT_Z - 2);
 
@@ -243,8 +243,8 @@
         } else {
           //une nouvelle sphere
           var G_sphere3 = new THREE.SphereGeometry(0.1, 20, 20);
-          var M_sphere3 = new THREE.MeshLambertMaterial({ color: 0xc2ad23 }); //jaune et pas bleu
-          sphere3 = new THREE.Mesh(G_sphere3, M_sphere3); //le bleu ne se verrait pas (ambient)
+          var M_sphere3 = new THREE.MeshLambertMaterial({ color: 0x2834bd });
+          sphere3 = new THREE.Mesh(G_sphere3, M_sphere3);
           scene.add(sphere3);
 
           sphere3.position.set((MAX_X + MIN_X) / 2, MIN_Y, DEFAULT_Z - 2);
@@ -306,9 +306,9 @@
       function sphere4_animation2() {
         if (sphere4_size > 0.1) {
           sphere4_size -= 0.2;
-          var G_sphere5 = new THREE.SphereGeometry(sphere4_size, 20, 20);
-          var M_sphere5 = new THREE.MeshLambertMaterial({ color: 0xffffff });
-          sphere4 = new THREE.Mesh(G_sphere5, M_sphere5);
+          var G_sphere4 = new THREE.SphereGeometry(sphere4_size, 20, 20);
+          var M_sphere4 = new THREE.MeshLambertMaterial({ color: 0xffffff });
+          sphere4 = new THREE.Mesh(G_sphere4, M_sphere4);
           scene.add(sphere4);
           sphere4.position.set(
             sphere3.position.x,
