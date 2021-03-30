@@ -324,17 +324,12 @@
         }
       }
       function light_animation() {
-        /* light.intensity = ambient.intensity = 0;
-        light.visible = ambient.visible = false;
-        ambient_color = generateRandomLightColor();
-        ambient = new THREE.AmbientLight(ambient_color);
-        scene.add(ambient); */
         ambient.color.setRGB(1, Math.random(), Math.random());
       }
       //#endregion
 
       function hideObject(object) {
-        object.position.x = 100;
+        object.visible = false;
       }
       //#endregion MES FONCTIONS
 
