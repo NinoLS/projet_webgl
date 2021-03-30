@@ -284,7 +284,7 @@
         }
       }
       function sphere4_animation1() {
-        if (sphere4_size < 5) {
+        if (sphere4_size < 8) {
           sphere4_size += 0.15;
           var G_sphere4 = new THREE.SphereGeometry(sphere4_size, 20, 20);
           var M_sphere4 = new THREE.MeshLambertMaterial({ color: 0xffffff });
@@ -324,24 +324,17 @@
         }
       }
       function light_animation() {
-        light.intensity = ambient.intensity = 0;
+        /* light.intensity = ambient.intensity = 0;
         light.visible = ambient.visible = false;
         ambient_color = generateRandomLightColor();
         ambient = new THREE.AmbientLight(ambient_color);
-        scene.add(ambient);
+        scene.add(ambient); */
+        ambient.color.setRGB(1, Math.random(), Math.random());
       }
       //#endregion
 
       function hideObject(object) {
         object.position.x = 100;
-      }
-      function generateRandomLightColor() {
-        color = "#FF";
-        hexa = "0123456789abcdef";
-        for (let i = 0; i < 4; i++) {
-          color += hexa[Math.floor(Math.random() * 16)];
-        }
-        return color;
       }
       //#endregion MES FONCTIONS
 
