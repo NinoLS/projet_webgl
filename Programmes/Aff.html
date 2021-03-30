@@ -150,7 +150,7 @@
           opacity: 0.5,
           transparent: true,
           side: THREE.DoubleSide,
-          map: texture_canvas,
+          map: texture_canvas
         });
         plane = new THREE.Mesh(G_plane, M_plane);
         plane.position.z += 25;
@@ -303,7 +303,7 @@
       }
       function sphere5_animation1() {
         if (sphere5_size < 5) {
-          sphere5_size += 0.05;
+          sphere5_size += 0.15;
           var G_sphere5 = new THREE.SphereGeometry(sphere5_size, 20, 20);
           var M_sphere5 = new THREE.MeshLambertMaterial({ color: 0xffffff });
           sphere5 = new THREE.Mesh(G_sphere5, M_sphere5);
@@ -313,6 +313,7 @@
             sphere4.position.y,
             sphere4.position.z
           );
+          light_animation();
           requestAnimationFrame(sphere5_animation1);
           Afficher();
           hideObject(sphere5);
@@ -322,7 +323,7 @@
       }
       function sphere5_animation2() {
         if (sphere5_size > 0.1) {
-          sphere5_size -= 0.15;
+          sphere5_size -= 0.2;
           var G_sphere5 = new THREE.SphereGeometry(sphere5_size, 20, 20);
           var M_sphere5 = new THREE.MeshLambertMaterial({ color: 0xffffff });
           sphere5 = new THREE.Mesh(G_sphere5, M_sphere5);
@@ -332,20 +333,32 @@
             sphere4.position.y,
             sphere4.position.z
           );
+          light_animation();
           requestAnimationFrame(sphere5_animation2);
           Afficher();
           hideObject(sphere5);
         } else {
           hideObject(sphere4);
-          ambient_color += 000001;
-          ambient = new THREE.AmbientLight(ambient_color);
-          scene.add(ambient);
-          requestAnimationFrame(sphere5_animation2);
-          Afficher();
         }
       }
+      function light_animation() {
+        light.intensity = ambient.intensity = 0;
+        light.visible = ambient.visible = false;
+        ambient_color = generateRandomLightColor();
+        ambient = new THREE.AmbientLight(ambient_color);
+        scene.add(ambient);
+      }
+
       function hideObject(object) {
         object.position.x = 100;
+      }
+      function generateRandomLightColor() {
+        color = "#FF";
+        hexa = "0123456789abcdef";
+        for (let i = 0; i < 4; i++) {
+          color += hexa[Math.floor(Math.random() * 16)];
+        }
+        return color;
       }
       //#endregion MES FONCTIONS
 
