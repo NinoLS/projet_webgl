@@ -56,11 +56,11 @@
       var plane;
 
       var indice_2 = false; //indice 2 non trouvé
-      var sphere, sphere2, sphere3, sphere4;
+      var bouton, sphere2, sphere3, sphere4;
       var sphere4_size = 0.1;
 
       var indice_3 = false; //indice 3 non trouvé
-      var cube;
+      var bouton2;
       var door;
       var door_speed = 1;
 
@@ -164,10 +164,6 @@
         plane.rotateY(3.13); //"rotation miroir"
         scene.add(plane);
 
-        // SPHERE - INDICE 2
-        sphere = sphereConstructor(0.1, 0xd12828);
-        sphere.position.set(MAX_X - 0.2, MAX_Y - 0.2, DEFAULT_Z - 2);
-
         //#endregion OBJETS
       }
 
@@ -187,27 +183,27 @@
       //#endregion
       //#region MES FONCTIONS
 
-      //#region INDICE 1 - PLAFOND
       function indice1_Plafond() {
         while (plane.position.z > camera.position.z + 4)
           plane.position.lerp(camera.position, 0.1);
         alert("Indice 1 !");
-        scene.add(sphere);
+
+        //1e sphere - rouge
+        sphere = sphereConstructor(0.1, 0xaa0000);
+        sphere.position.set(MAX_X + 1, (MIN_Y + MAX_Y) / 2, DEFAULT_Z - 2);
+
+        //2e sphere - verte
+        sphere2 = sphereConstructor(0.1, 0x168a16);
+        sphere2.position.set(MIN_X - 1, (MIN_Y + MAX_Y) / 2, DEFAULT_Z - 2);
+
+        //3e sphere - "bleu"
+        sphere3 = sphereConstructor(0.1, 0x2834bd);
+        sphere3.position.set((MAX_X + MIN_X) / 2, MIN_Y - 1, DEFAULT_Z - 2);
       }
-      //#endregion
-      //#region INDICE 2 - SPHERES
+
       function indice2_Sphere() {
         toggleObject(plane);
         sphere_animation();
-
-        // 2e sphere
-        sphere2 = sphereConstructor(0.1, 0x168a16);
-        sphere2.position.set(
-          sphere.position.x,
-          sphere.position.y,
-          sphere.position.z
-        );
-        sphere2_animation();
       }
       function sphere_animation() {
         if (sphere.position.z < -19.85) {
@@ -226,9 +222,6 @@
           sphere2.position.z += 0.008;
           renderer.render(scene, camera);
         } else {
-          //une nouvelle sphere
-          sphere3 = sphereConstructor(0.1, 0x2834bd);
-          sphere3.position.set((MAX_X + MIN_X) / 2, MIN_Y, DEFAULT_Z - 2);
           sphere3_animation();
         }
       }
@@ -300,7 +293,7 @@
           //lumiere de la lampe remise à la "normale"
           ambient.color.set(AMBIENT_COLOR);
 
-          //apparition du bouton-cube (indice 3 )
+          //apparition du bouton2-cube (indice 3 )
           var GCube = new THREE.CubeGeometry(0.2, 0.2, 0.2);
           var MCube = new THREE.MeshPhongMaterial({
             ambient: 0xffffff,
@@ -308,10 +301,10 @@
             opacity: 0,
             transparent: true
           });
-          cube = new THREE.Mesh(GCube, MCube);
-          cube.position = sphere4.position;
-          cube.position.z -= 2.2;
-          scene.add(cube);
+          bouton2 = new THREE.Mesh(GCube, MCube);
+          bouton2.position = sphere4.position;
+          bouton2.position.z -= 2.2;
+          scene.add(bouton2);
         }
       }
       function light_animation() {
@@ -410,17 +403,27 @@
         //INDICE 1 (PLAFOND)
         if (Math.round(Math.abs(camera.rotation.x * 10)) == 31 && !indice_1) {
           //valeur absolue + arondie 3e chiffre (pour _x=3.04 ou _x=-3.04  <=> plafond !)
+
+          //apparition du bouton-cube
+          var GCube = new THREE.CubeGeometry(0.2, 0.2, 0.2);
+          var MCube = new THREE.MeshPhongMaterial({
+            ambient: 0xaa0000,
+            color: 0xaa0000
+          });
+          bouton = new THREE.Mesh(GCube, MCube);
+          bouton.position.set(MAX_X - 0.2, MAX_Y - 0.2, DEFAULT_Z - 2);
+          scene.add(bouton);
           indice_1 = true;
           indice1_Plafond();
         }
 
-        //INDICE 3 (BOUTON)
-        if (indice_2 && !indice_3 & (cube != null)) {
-          cube.material.opacity =
+        //INDICE 3 (bouton2)
+        if (indice_2 && !indice_3 & (bouton2 != null)) {
+          bouton2.material.opacity =
             1 /
-            (Math.abs(camera.position.x - cube.position.x) +
-              Math.abs(camera.position.y - cube.position.y));
-          if ((cube.material.opacity > 4) & !indice_3) {
+            (Math.abs(camera.position.x - bouton2.position.x) +
+              Math.abs(camera.position.y - bouton2.position.y));
+          if ((bouton2.material.opacity > 4) & !indice_3) {
             indice_3 = true;
             alert("Indice 3!");
           }
@@ -439,7 +442,7 @@
           door.rotation.x -= 4.7;
           scene.add(door);
 
-          toggleObject(cube);
+          toggleObject(bouton2);
           indice_4 = true;
           porte_animation();
         }
