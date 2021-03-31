@@ -208,19 +208,21 @@
         spheresFusion_animation();
       }
       function spheresFusion_animation() {
-        sphere.position.x -= 0.04;
-        sphere.position.y -= 0.04;
-        sphere.position.z += 0.008;
+        if (!objectNearObject(sphere, sphere2, 10)) {
+          sphere.position.x -= 0.04;
+          sphere.position.y -= 0.04;
+          sphere.position.z += 0.008;
 
-        sphere2.position.x -= 0.04;
-        sphere2.position.y -= 0.04;
-        sphere2.position.z += 0.008;
+          sphere2.position.x += 0.04;
+          sphere2.position.y -= 0.04;
+          sphere2.position.z += 0.008;
 
-        sphere3.position.y -= 0.04;
-        sphere3.position.z += 0.008;
+          sphere3.position.y += 0.037;
+          sphere3.position.z += 0.008;
 
-        requestAnimationFrame(spheresFusion_animation); //boucle
-        renderer.render(scene, camera);
+          requestAnimationFrame(spheresFusion_animation); //boucle
+          renderer.render(scene, camera);
+        }
       }
 
       function sphere2_animation() {
@@ -366,7 +368,16 @@
       function toggleObject(object) {
         object.visible = !object.visible;
         scene.add(object);
-        Afficher();
+      }
+      function objectNearObject(object1, object2, precision) {
+        if (
+          Math.round(object1.position.x * precision) ==
+            Math.round(object2.position.x * precision) &&
+          Math.round(object1.position.y * precision) ==
+            Math.round(object2.position.y * precision)
+        )
+          return true;
+        else return false;
       }
       //#endregion MES FONCTIONS
 
