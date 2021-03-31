@@ -187,12 +187,9 @@
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
       }
-      function Afficher() {
-        renderer.render(scene, camera);
-      }
       function Animer() {
         requestAnimationFrame(Animer);
-        Afficher();
+        renderer.render(scene, camera);
       }
       //#endregion
       //#region MES FONCTIONS
