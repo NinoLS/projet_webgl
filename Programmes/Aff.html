@@ -54,11 +54,17 @@
 
       var indice_1 = false; //indice 1 non trouvé (permet de se déclencher 1 seule fois)
       var plane;
+
       var indice_2 = false; //indice 2 non trouvé
       var sphere, sphere2, sphere3, sphere4;
       var sphere4_size = 0.1;
+
       var indice_3 = false; //indice 3 non trouvé
       var cube;
+      var door;
+      var door_speed = 1;
+
+      var indice_4 = false;
 
       //#endregion VARIABLES
 
@@ -346,11 +352,21 @@
       }
 
       //#endregion
-      //#region INDICE 3 - ENTREE SUR CARRE AU SOL
+
       function porte_animation() {
-        //apparition porte blanche ?
+        if (door_speed < 2.5) door_speed += 0.03;
+
+        door.rotation.y += 0.08 * door_speed;
+        door.translateX(0.045 * door_speed);
+        requestAnimationFrame(porte_animation);
+        Afficher();
       }
-      //#endregion
+      function ascension_animation() {
+        camera.position.z += 0.1;
+        requestAnimationFrame(ascension_animation);
+        Afficher();
+      }
+
       function toggleObject(object) {
         object.visible = !object.visible;
       }
@@ -414,9 +430,38 @@
             alert("Indice 3!");
           }
         }
-        if (indice_3 && event.which == ENTREE) {
-          alert("Bravo ! Voici la sortie !");
+        if (indice_3 && event.which == ENTREE && door == null) {
+          //porte
+          var G_door = new THREE.PlaneGeometry(1, 30);
+          var M_door = new THREE.MeshPhongMaterial({
+            color: 0xffffff,
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 0.5
+          });
+          door = new THREE.Mesh(G_door, M_door);
+          door.position.set((MAX_X + MIN_X) / 2, MIN_Y, DEFAULT_Z - 0.4);
+          door.rotation.x -= 4.7;
+          scene.add(door);
+
+          toggleObject(cube);
+          indice_4 = true;
           porte_animation();
+        }
+
+        //"INDICE 4" - SORTIE
+        if (
+          indice_4 &&
+          Math.abs(
+            Math.round(camera.position.x * 5) - Math.round(door.position.x * 5)
+          ) +
+            Math.abs(
+              Math.round(camera.position.y * 5) -
+                Math.round(door.position.y * 5)
+            ) <
+            3
+        ) {
+          ascension_animation();
         }
         //#endregion MOUVEMENTS CAMERA
       });
