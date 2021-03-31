@@ -194,7 +194,7 @@
       //#endregion
       //#region MES FONCTIONS
 
-      function indice1_Plafond() {
+      function indice1_trigger() {
         while (plane.position.z > camera.position.z + 4)
           plane.position.lerp(camera.position, 0.1);
         alert("Indice 1 !");
@@ -202,8 +202,7 @@
         toggleObject(sphere2);
         toggleObject(sphere3);
       }
-
-      function indice2_Sphere() {
+      function indice2_trigger() {
         toggleObject(plane);
         spheresFusion_animation();
       }
@@ -222,81 +221,44 @@
 
           requestAnimationFrame(spheresFusion_animation); //boucle
           renderer.render(scene, camera);
-        }
-      }
-
-      function sphere2_animation() {
-        if (sphere2.position.z < -19.85) {
-          requestAnimationFrame(sphere2_animation); //boucle
-          sphere2.position.x += 0.0045;
-          sphere2.position.y -= 0.04;
-          sphere2.position.z += 0.008;
-          renderer.render(scene, camera);
         } else {
-          sphere3_animation();
-        }
-      }
-      function sphere3_animation() {
-        if (
-          Math.round(sphere3.position.z * 10) !=
-          Math.round(sphere2.position.z * 10)
-        ) {
-          requestAnimationFrame(sphere3_animation); //boucle
-          sphere3.position.z += 0.04;
-          renderer.render(scene, camera);
-        } else {
-          old_spheresFusion_animation();
-        }
-      }
-      function old_spheresFusion_animation() {
-        if (
-          Math.round(sphere.position.x * 10) !=
-          Math.round(sphere3.position.x * 10)
-        ) {
-          requestAnimationFrame(old_spheresFusion_animation); //boucle
-          sphere.position.y -= 0.04 * 2;
-          sphere2.position.y -= 0.04 * 2;
-          sphere3.position.y += 0.032 * 2;
-
-          sphere.position.x += 0.044 * 2;
-          sphere2.position.x -= 0.044 * 2;
-          renderer.render(scene, camera);
-        } else {
-          // sphere blanche
           toggleObject(sphere);
           toggleObject(sphere2);
-          sphere4_animation1();
+          sphereWhite_animation();
         }
       }
-      function sphere4_animation1() {
+      function sphereWhite_animation() {
         if (sphere4_size < 2) {
           sphere4_size += 0.08;
           sphere4 = sphereConstructor(sphere4_size, 0xffffff);
+          scene.add(sphere4);
           sphere4.position.set(
             sphere3.position.x,
             sphere3.position.y,
             sphere3.position.z
           );
           light_animation();
-          requestAnimationFrame(sphere4_animation1);
-          Afficher();
-          toggleObject(sphere4);
+          requestAnimationFrame(sphereWhite_animation);
+          renderer.render(scene, camera);
+          sphere4.visible = false;
         } else {
-          sphere4_animation2();
+          //toggleObject(sphere4);
+          //sphereWhite_animation2();
         }
       }
-      function sphere4_animation2() {
+      function sphereWhite_animation2() {
         if (sphere4_size > 0.1) {
           sphere4_size -= 0.2;
           sphere4 = sphereConstructor(sphere4_size, 0xffffff);
+          toggleObject(sphere4);
           sphere4.position.set(
             sphere3.position.x,
             sphere3.position.y,
             sphere3.position.z
           );
           light_animation();
-          requestAnimationFrame(sphere4_animation2);
-          Afficher();
+          renderer.render(scene, camera);
+          requestAnimationFrame(sphereWhite_animation2);
           toggleObject(sphere4);
         } else {
           toggleObject(sphere3);
@@ -330,13 +292,13 @@
         door.rotation.y += 0.08 * door_speed;
         door.translateX(0.045 * door_speed);
         requestAnimationFrame(porte_animation);
-        Afficher();
+        renderer.render(scene, camera);
       }
       function ascension_animation() {
         if (camera.position.z < 25) {
           camera.position.z += 0.1;
           requestAnimationFrame(ascension_animation);
-          Afficher();
+          renderer.render(scene, camera);
         } else {
           alert("Fin !");
         }
@@ -350,7 +312,7 @@
         ) {
           alert("Indice 2 !");
           indice_2 = true;
-          indice2_Sphere();
+          indice2_trigger();
         }
 
         if (object.position.x - 0.05 < MIN_X) object.position.x += 0.05;
@@ -435,7 +397,7 @@
           bouton.position.set(MAX_X - 0.2, MAX_Y - 0.2, DEFAULT_Z - 2);
           scene.add(bouton);
           indice_1 = true;
-          indice1_Plafond();
+          indice1_trigger();
         }
 
         //INDICE 3 (bouton2)
