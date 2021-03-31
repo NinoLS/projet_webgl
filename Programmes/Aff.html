@@ -15,6 +15,7 @@
 
     <script>
       //#region CONSTANTES
+      const ENTREE = 13;
       const FLECHE_GAUCHE = 37;
       const FLECHE_DROITE = 39;
       const FLECHE_HAUT = 38;
@@ -346,7 +347,9 @@
 
       //#endregion
       //#region INDICE 3 - ENTREE SUR CARRE AU SOL
-
+      function porte_animation() {
+        //apparition porte blanche ?
+      }
       //#endregion
       function toggleObject(object) {
         object.visible = !object.visible;
@@ -410,6 +413,10 @@
             indice_3 = true;
             alert("Indice 3!");
           }
+        }
+        if (indice_3 && event.which == ENTREE) {
+          alert("Bravo ! Voici la sortie !");
+          porte_animation();
         }
         //#endregion MOUVEMENTS CAMERA
       });
