@@ -285,8 +285,8 @@
         }
       }
       function sphere4_animation1() {
-        if (sphere4_size < 8) {
-          sphere4_size += 0.15;
+        if (sphere4_size < 2) {
+          sphere4_size += 0.08;
           var G_sphere4 = new THREE.SphereGeometry(sphere4_size, 20, 20);
           var M_sphere4 = new THREE.MeshLambertMaterial({ color: 0xffffff });
           sphere4 = new THREE.Mesh(G_sphere4, M_sphere4);
