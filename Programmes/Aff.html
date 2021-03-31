@@ -165,9 +165,7 @@
         scene.add(plane);
 
         // SPHERE - INDICE 2
-        var G_sphere = new THREE.SphereGeometry(0.1, 20, 20);
-        var M_sphere = new THREE.MeshLambertMaterial({ color: 0xd12828 });
-        sphere = new THREE.Mesh(G_sphere, M_sphere);
+        sphere = sphereConstructor(0.1, 0xd12828);
         sphere.position.set(MAX_X - 0.2, MAX_Y - 0.2, DEFAULT_Z - 2);
 
         //#endregion OBJETS
@@ -188,24 +186,6 @@
       }
       //#endregion
       //#region MES FONCTIONS
-      function VerifierProcheMur(object, event) {
-        if (
-          object.position.x + 0.05 > MAX_X &&
-          object.position.y + 0.05 > MAX_Y &&
-          indice_1 &&
-          !indice_2
-        ) {
-          alert("Indice 2 !");
-          indice_2 = true;
-          indice2_Sphere();
-        }
-
-        if (object.position.x - 0.05 < MIN_X) object.position.x += 0.05;
-        if (object.position.x + 0.05 > MAX_X) object.position.x -= 0.05;
-        if (object.position.y - 0.05 < MIN_Y) object.position.y += 0.05;
-        if (object.position.y + 0.05 > MAX_Y) object.position.y -= 0.05;
-        object.position.z = DEFAULT_Z;
-      }
 
       //#region INDICE 1 - PLAFOND
       function indice1_Plafond() {
@@ -221,10 +201,7 @@
         sphere_animation();
 
         // 2e sphere
-        var G_sphere2 = new THREE.SphereGeometry(0.1, 20, 20);
-        var M_sphere2 = new THREE.MeshLambertMaterial({ color: 0x168a16 });
-        sphere2 = new THREE.Mesh(G_sphere2, M_sphere2);
-        scene.add(sphere2);
+        sphere2 = sphereConstructor(0.1, 0x168a16);
         sphere2.position.set(
           sphere.position.x,
           sphere.position.y,
@@ -250,11 +227,7 @@
           renderer.render(scene, camera);
         } else {
           //une nouvelle sphere
-          var G_sphere3 = new THREE.SphereGeometry(0.1, 20, 20);
-          var M_sphere3 = new THREE.MeshLambertMaterial({ color: 0x2834bd });
-          sphere3 = new THREE.Mesh(G_sphere3, M_sphere3);
-          scene.add(sphere3);
-
+          sphere3 = sphereConstructor(0.1, 0x2834bd);
           sphere3.position.set((MAX_X + MIN_X) / 2, MIN_Y, DEFAULT_Z - 2);
           sphere3_animation();
         }
@@ -294,10 +267,7 @@
       function sphere4_animation1() {
         if (sphere4_size < 2) {
           sphere4_size += 0.08;
-          var G_sphere4 = new THREE.SphereGeometry(sphere4_size, 20, 20);
-          var M_sphere4 = new THREE.MeshLambertMaterial({ color: 0xffffff });
-          sphere4 = new THREE.Mesh(G_sphere4, M_sphere4);
-          scene.add(sphere4);
+          sphere4 = sphereConstructor(sphere4_size, 0xffffff);
           sphere4.position.set(
             sphere3.position.x,
             sphere3.position.y,
@@ -314,10 +284,7 @@
       function sphere4_animation2() {
         if (sphere4_size > 0.1) {
           sphere4_size -= 0.2;
-          var G_sphere4 = new THREE.SphereGeometry(sphere4_size, 20, 20);
-          var M_sphere4 = new THREE.MeshLambertMaterial({ color: 0xffffff });
-          sphere4 = new THREE.Mesh(G_sphere4, M_sphere4);
-          scene.add(sphere4);
+          sphere4 = sphereConstructor(sphere4_size, 0xffffff);
           sphere4.position.set(
             sphere3.position.x,
             sphere3.position.y,
@@ -370,7 +337,31 @@
           alert("Fin !");
         }
       }
+      function verifierProcheMur(object, event) {
+        if (
+          object.position.x + 0.05 > MAX_X &&
+          object.position.y + 0.05 > MAX_Y &&
+          indice_1 &&
+          !indice_2
+        ) {
+          alert("Indice 2 !");
+          indice_2 = true;
+          indice2_Sphere();
+        }
 
+        if (object.position.x - 0.05 < MIN_X) object.position.x += 0.05;
+        if (object.position.x + 0.05 > MAX_X) object.position.x -= 0.05;
+        if (object.position.y - 0.05 < MIN_Y) object.position.y += 0.05;
+        if (object.position.y + 0.05 > MAX_Y) object.position.y -= 0.05;
+        object.position.z = DEFAULT_Z;
+      }
+      function sphereConstructor(size, color) {
+        var G_sphere_tmp = new THREE.SphereGeometry(size, 20, 20);
+        var M_sphere_tmp = new THREE.MeshLambertMaterial({ color: color });
+        sphere_tmp = new THREE.Mesh(G_sphere_tmp, M_sphere_tmp);
+        scene.add(sphere_tmp);
+        return sphere_tmp;
+      }
       function toggleObject(object) {
         object.visible = !object.visible;
       }
@@ -410,7 +401,7 @@
           if (event.which == FLECHE_HAUT) camera.rotateX(0.05);
           if (event.which == FLECHE_BAS) camera.rotateX(-0.05);
         } else {
-          VerifierProcheMur(camera, event);
+          verifierProcheMur(camera, event);
           if (event.which == FLECHE_GAUCHE) camera.translateX(-0.05);
           if (event.which == FLECHE_DROITE) camera.translateX(0.05);
           if (event.which == FLECHE_HAUT) camera.translateZ(-0.05);
