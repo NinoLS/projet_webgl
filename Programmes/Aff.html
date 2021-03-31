@@ -56,7 +56,7 @@
       var plane;
 
       var indice_2 = false; //indice 2 non trouvé
-      var bouton, sphere2, sphere3, sphere4;
+      var bouton, shpere, sphere2, sphere3, sphere4;
       var sphere4_size = 0.1;
 
       var indice_3 = false; //indice 3 non trouvé
@@ -120,15 +120,16 @@
         container.appendChild(renderer.domElement);
         window.addEventListener("resize", onWindowResize, false);
         //#endregion TEXTURE ET MODELE
+
         //#region OBJETS
-        // LUMIERE MAIN PERSONNAGE
+        //#region LUMIERE MAIN PERSONNAGE
         light = new THREE.DirectionalLight(0xff9a00, 1, 1);
         camera.add(light);
         scene.add(camera);
         light.position.z = 35;
         light.position.y = 30;
-
-        // TEXT - INDICE 1
+        //#endregion
+        //#region INDICE 1 - TEXT-PLANE
         var canvas_indice1 = document.createElement("canvas");
         var context = canvas_indice1.getContext("2d");
         var text = "Indice suivant : coin!";
@@ -147,10 +148,8 @@
           canvas_indice1.width / 2,
           canvas_indice1.height / 2
         );
-
         var texture_canvas = new THREE.Texture(canvas_indice1);
         texture_canvas.needsUpdate = true;
-
         var G_plane = new THREE.PlaneGeometry(8, 5);
         var M_plane = new THREE.MeshBasicMaterial({
           color: 0xffaa00,
@@ -163,6 +162,21 @@
         plane.position.z += 25;
         plane.rotateY(3.13); //"rotation miroir"
         scene.add(plane);
+        //#endregion
+        //#region INDICE 2 - SPHERES
+        //1e sphere - rouge
+        sphere = sphereConstructor(0.1, 0xaa0000);
+        sphere.position.set(MAX_X + 1, (MIN_Y + MAX_Y) / 2, DEFAULT_Z - 2);
+        toggleObject(sphere);
+        //2e sphere - verte
+        sphere2 = sphereConstructor(0.1, 0x168a16);
+        sphere2.position.set(MIN_X - 1, (MIN_Y + MAX_Y) / 2, DEFAULT_Z - 2);
+        toggleObject(sphere2);
+
+        //3e sphere - "bleu"
+        sphere3 = sphereConstructor(0.1, 0x2834bd);
+        sphere3.position.set((MAX_X + MIN_X) / 2, MIN_Y - 1, DEFAULT_Z - 2);
+        toggleObject(sphere3);
 
         //#endregion OBJETS
       }
@@ -187,33 +201,31 @@
         while (plane.position.z > camera.position.z + 4)
           plane.position.lerp(camera.position, 0.1);
         alert("Indice 1 !");
-
-        //1e sphere - rouge
-        sphere = sphereConstructor(0.1, 0xaa0000);
-        sphere.position.set(MAX_X + 1, (MIN_Y + MAX_Y) / 2, DEFAULT_Z - 2);
-
-        //2e sphere - verte
-        sphere2 = sphereConstructor(0.1, 0x168a16);
-        sphere2.position.set(MIN_X - 1, (MIN_Y + MAX_Y) / 2, DEFAULT_Z - 2);
-
-        //3e sphere - "bleu"
-        sphere3 = sphereConstructor(0.1, 0x2834bd);
-        sphere3.position.set((MAX_X + MIN_X) / 2, MIN_Y - 1, DEFAULT_Z - 2);
+        toggleObject(sphere);
+        toggleObject(sphere2);
+        toggleObject(sphere3);
       }
 
       function indice2_Sphere() {
         toggleObject(plane);
-        sphere_animation();
+        spheresFusion_animation();
       }
-      function sphere_animation() {
-        if (sphere.position.z < -19.85) {
-          requestAnimationFrame(sphere_animation); //boucle
-          sphere.position.x -= 0.04;
-          sphere.position.y -= 0.04;
-          sphere.position.z += 0.008;
-          renderer.render(scene, camera);
-        }
+      function spheresFusion_animation() {
+        sphere.position.x -= 0.04;
+        sphere.position.y -= 0.04;
+        sphere.position.z += 0.008;
+
+        sphere2.position.x -= 0.04;
+        sphere2.position.y -= 0.04;
+        sphere2.position.z += 0.008;
+
+        sphere3.position.y -= 0.04;
+        sphere3.position.z += 0.008;
+
+        requestAnimationFrame(spheresFusion_animation); //boucle
+        renderer.render(scene, camera);
       }
+
       function sphere2_animation() {
         if (sphere2.position.z < -19.85) {
           requestAnimationFrame(sphere2_animation); //boucle
@@ -234,15 +246,15 @@
           sphere3.position.z += 0.04;
           renderer.render(scene, camera);
         } else {
-          spheresFusion_animation();
+          old_spheresFusion_animation();
         }
       }
-      function spheresFusion_animation() {
+      function old_spheresFusion_animation() {
         if (
           Math.round(sphere.position.x * 10) !=
           Math.round(sphere3.position.x * 10)
         ) {
-          requestAnimationFrame(spheresFusion_animation); //boucle
+          requestAnimationFrame(old_spheresFusion_animation); //boucle
           sphere.position.y -= 0.04 * 2;
           sphere2.position.y -= 0.04 * 2;
           sphere3.position.y += 0.032 * 2;
@@ -352,11 +364,12 @@
         var G_sphere_tmp = new THREE.SphereGeometry(size, 20, 20);
         var M_sphere_tmp = new THREE.MeshLambertMaterial({ color: color });
         sphere_tmp = new THREE.Mesh(G_sphere_tmp, M_sphere_tmp);
-        scene.add(sphere_tmp);
         return sphere_tmp;
       }
       function toggleObject(object) {
         object.visible = !object.visible;
+        scene.add(object);
+        Afficher();
       }
       //#endregion MES FONCTIONS
 
