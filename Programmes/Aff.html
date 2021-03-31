@@ -23,8 +23,6 @@
       const Q = 81;
       const S = 83;
       const D = 68;
-      const X = 88;
-      const Y = 89;
 
       const MIN_X = -5;
       const DEFAULT_X = 0;
@@ -167,6 +165,7 @@
 
         //#endregion OBJETS
       }
+      
       //#region FONCTIONS LOGICIELS
       function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -181,7 +180,6 @@
         Afficher();
       }
       //#endregion
-
       //#region MES FONCTIONS
       function VerifierProcheMur(object, event) {
         if (
@@ -357,9 +355,6 @@
       //#endregion MES FONCTIONS
 
       $("*").keydown(function (event) {
-        //if (event.which == X)
-        //if (event.which == Y)
-
         //#region MOUVEMENTS CAMERA
         if (event.altKey) {
           //si l'on veut modifier horizontalement l'angle mais que
