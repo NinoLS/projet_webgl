@@ -362,9 +362,13 @@
         Afficher();
       }
       function ascension_animation() {
-        camera.position.z += 0.1;
-        requestAnimationFrame(ascension_animation);
-        Afficher();
+        if (camera.position.z < 25) {
+          camera.position.z += 0.1;
+          requestAnimationFrame(ascension_animation);
+          Afficher();
+        } else {
+          alert("Fin !");
+        }
       }
 
       function toggleObject(object) {
@@ -432,7 +436,7 @@
         }
         if (indice_3 && event.which == ENTREE && door == null) {
           //porte
-          var G_door = new THREE.PlaneGeometry(1, 30);
+          var G_door = new THREE.PlaneGeometry(1, 100);
           var M_door = new THREE.MeshPhongMaterial({
             color: 0xffffff,
             side: THREE.DoubleSide,
