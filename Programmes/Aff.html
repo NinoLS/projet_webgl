@@ -165,7 +165,7 @@
 
         //#endregion OBJETS
       }
-      
+
       //#region FONCTIONS LOGICIELS
       function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -188,7 +188,7 @@
           indice_1 &&
           !indice_2
         ) {
-          alert("Indice 2!");
+          alert("Indice 2 !");
           indice_2 = true;
           indice2_Sphere();
         }
@@ -343,7 +343,6 @@
       function light_animation() {
         ambient.color.setRGB(1, Math.random(), Math.random());
       }
-      function ground_animation() {}
 
       //#endregion
       //#region INDICE 3 - ENTREE SUR CARRE AU SOL
@@ -402,16 +401,15 @@
         }
 
         //INDICE 3 (BOUTON)
-        if (
-          Math.round(camera.position.x * 10) ==
-            Math.round(cube.position.x * 100) &&
-          Math.round(camera.position.y * 10) ==
-            Math.round(cube.position.y * 10) &&
-          indice_2 &&
-          !indice_3
-        ) {
-          indice_3 = true;
-          ground_animation();
+        if (indice_2 && !indice_3 & (cube != null)) {
+          cube.material.opacity =
+            1 /
+            (Math.abs(camera.position.x - cube.position.x) +
+              Math.abs(camera.position.y - cube.position.y));
+          if ((cube.material.opacity > 4) & !indice_3) {
+            indice_3 = true;
+            alert("Indice 3!");
+          }
         }
         //#endregion MOUVEMENTS CAMERA
       });
