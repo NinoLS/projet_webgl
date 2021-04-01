@@ -446,14 +446,7 @@
         //"INDICE 4" - SORTIE
         if (
           indice_4 &&
-          Math.abs(
-            Math.round(camera.position.x * 5) - Math.round(door.position.x * 5)
-          ) +
-            Math.abs(
-              Math.round(camera.position.y * 5) -
-                Math.round(door.position.y * 5)
-            ) <
-            3
+          objectNearObject(camera, door, 1)
         ) {
           ascension_animation();
         }
