@@ -195,13 +195,17 @@
       //#region MES FONCTIONS
 
       function indice1_trigger() {
-        alert("Indice 1 !");
         toggleObject(sphere);
         toggleObject(sphere2);
         toggleObject(sphere3);
         plane_animation();
       }
       function indice2_trigger() {
+        ambient.color.setRGB(
+          ambient.color.r + 0.2,
+          ambient.color.g + 0.2,
+          ambient.color.b + 0.2
+        );
         toggleObject(plane);
         spheresRising_animation();
       }
