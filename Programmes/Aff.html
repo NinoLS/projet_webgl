@@ -201,11 +201,6 @@
         plane_animation();
       }
       function indice2_trigger() {
-        ambient.color.setRGB(
-          ambient.color.r + 0.2,
-          ambient.color.g + 0.2,
-          ambient.color.b + 0.2
-        );
         toggleObject(plane);
         spheresRising_animation();
       }
@@ -215,6 +210,13 @@
           sphere.position.z += 0.005;
           sphere2.position.z += 0.005;
           sphere3.position.z += 0.005;
+
+          //lumiere
+          ambient.color.setRGB(
+            ambient.color.r + 0.001,
+            ambient.color.g + 0.001,
+            ambient.color.b + 0.001
+          );
           requestAnimationFrame(spheresRising_animation);
         } else spheresFusion_animation();
       }
@@ -434,7 +436,7 @@
         }
         if (indice_3 && event.which == ENTREE && door == null) {
           //porte
-          var G_door = new THREE.PlaneGeometry(0.5, 100);
+          var G_door = new THREE.PlaneGeometry(0.15, 100);
           var M_door = new THREE.MeshPhongMaterial({
             color: 0xffffff,
             side: THREE.DoubleSide,
