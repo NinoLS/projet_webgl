@@ -195,12 +195,11 @@
       //#region MES FONCTIONS
 
       function indice1_trigger() {
-        while (plane.position.z > camera.position.z + 4)
-          plane.position.lerp(camera.position, 0.1);
         alert("Indice 1 !");
         toggleObject(sphere);
         toggleObject(sphere2);
         toggleObject(sphere3);
+        plane_animation();
       }
       function indice2_trigger() {
         toggleObject(plane);
@@ -292,6 +291,17 @@
 
       //#endregion
 
+      function plane_animation() {
+        plane.position.lerp(
+          new THREE.Vector3(
+            camera.position.x,
+            camera.position.y,
+            camera.position.z + 3
+          ),
+          0.05
+        );
+        requestAnimationFrame(plane_animation);
+      }
       function porte_animation() {
         if (door_speed < 2.5) {
           door_speed += 0.03;
@@ -317,17 +327,6 @@
         }
       }
       function verifierProcheMur(object, event) {
-        if (
-          object.position.x + 0.05 > MAX_X &&
-          object.position.y + 0.05 > MAX_Y &&
-          indice_1 &&
-          !indice_2
-        ) {
-          alert("Indice 2 !");
-          indice_2 = true;
-          indice2_trigger();
-        }
-
         if (object.position.x - 0.05 < MIN_X) object.position.x += 0.05;
         if (object.position.x + 0.05 > MAX_X) object.position.x -= 0.05;
         if (object.position.y - 0.05 < MIN_Y) object.position.y += 0.05;
@@ -390,6 +389,11 @@
           if (event.which == FLECHE_HAUT) camera.rotateX(0.05);
           if (event.which == FLECHE_BAS) camera.rotateX(-0.05);
         } else {
+          if (indice_1 && !indice_2 && objectNearObject(camera, bouton, 1)) {
+            alert("Indice 2 !");
+            indice_2 = true;
+            indice2_trigger();
+          }
           verifierProcheMur(camera, event);
           if (event.which == FLECHE_GAUCHE) camera.translateX(-0.05);
           if (event.which == FLECHE_DROITE) camera.translateX(0.05);
@@ -444,10 +448,7 @@
         }
 
         //"INDICE 4" - SORTIE
-        if (
-          indice_4 &&
-          objectNearObject(camera, door, 1)
-        ) {
+        if (indice_4 && objectNearObject(camera, door, 1)) {
           ascension_animation();
         }
         //#endregion MOUVEMENTS CAMERA
