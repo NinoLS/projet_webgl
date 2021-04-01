@@ -48,6 +48,7 @@
       var camera, scene, renderer;
       var dax = 0.002;
 
+      var CAMERA_SPEED = 0.05;
       var ambient, light;
       var tmp_rotation = [DEFAULT_X, DEFAULT_Y, DEFAULT_Z];
       var isCameraHorizontal = true;
@@ -193,7 +194,6 @@
       }
       //#endregion
       //#region MES FONCTIONS
-
       function indice1_trigger() {
         toggleObject(sphere);
         toggleObject(sphere2);
@@ -205,6 +205,35 @@
         spheresRising_animation();
       }
 
+      function verifierProcheMur(object, event) {
+        if (object.position.x - 0.05 < MIN_X) object.position.x += 0.05;
+        if (object.position.x + 0.05 > MAX_X) object.position.x -= 0.05;
+        if (object.position.y - 0.05 < MIN_Y) object.position.y += 0.05;
+        if (object.position.y + 0.05 > MAX_Y) object.position.y -= 0.05;
+        object.position.z = DEFAULT_Z;
+      }
+      function sphereConstructor(size, color) {
+        var G_sphere_tmp = new THREE.SphereGeometry(size, 20, 20);
+        var M_sphere_tmp = new THREE.MeshLambertMaterial({ color: color });
+        sphere_tmp = new THREE.Mesh(G_sphere_tmp, M_sphere_tmp);
+        return sphere_tmp;
+      }
+      function toggleObject(object) {
+        object.visible = !object.visible;
+        scene.add(object);
+      }
+      function objectNearObject(object1, object2, precision) {
+        if (
+          Math.round(object1.position.x * precision) ==
+            Math.round(object2.position.x * precision) &&
+          Math.round(object1.position.y * precision) ==
+            Math.round(object2.position.y * precision)
+        )
+          return true;
+        else return false;
+      }
+      //#endregion MES FONCTIONS
+      //#region ANIMATIONS
       function spheresRising_animation() {
         if (sphere.position.z < -19) {
           sphere.position.z += 0.005;
@@ -295,8 +324,6 @@
         ambient.color.setRGB(1, Math.random(), Math.random());
       }
 
-      //#endregion
-
       function plane_animation() {
         plane.position.lerp(
           new THREE.Vector3(
@@ -332,37 +359,10 @@
           toggleObject(scene);
         }
       }
-      function verifierProcheMur(object, event) {
-        if (object.position.x - 0.05 < MIN_X) object.position.x += 0.05;
-        if (object.position.x + 0.05 > MAX_X) object.position.x -= 0.05;
-        if (object.position.y - 0.05 < MIN_Y) object.position.y += 0.05;
-        if (object.position.y + 0.05 > MAX_Y) object.position.y -= 0.05;
-        object.position.z = DEFAULT_Z;
-      }
-      function sphereConstructor(size, color) {
-        var G_sphere_tmp = new THREE.SphereGeometry(size, 20, 20);
-        var M_sphere_tmp = new THREE.MeshLambertMaterial({ color: color });
-        sphere_tmp = new THREE.Mesh(G_sphere_tmp, M_sphere_tmp);
-        return sphere_tmp;
-      }
-      function toggleObject(object) {
-        object.visible = !object.visible;
-        scene.add(object);
-      }
-      function objectNearObject(object1, object2, precision) {
-        if (
-          Math.round(object1.position.x * precision) ==
-            Math.round(object2.position.x * precision) &&
-          Math.round(object1.position.y * precision) ==
-            Math.round(object2.position.y * precision)
-        )
-          return true;
-        else return false;
-      }
-      //#endregion MES FONCTIONS
+
+      //#endregion
 
       $("*").keydown(function (event) {
-        //#region MOUVEMENTS CAMERA
         if (event.altKey) {
           //si l'on veut modifier horizontalement l'angle mais que
           //l'angle de la caméra a été verticalement modifié
@@ -400,10 +400,10 @@
             indice2_trigger();
           }
           verifierProcheMur(camera, event);
-          if (event.which == FLECHE_GAUCHE) camera.translateX(-0.05);
-          if (event.which == FLECHE_DROITE) camera.translateX(0.05);
-          if (event.which == FLECHE_HAUT) camera.translateZ(-0.05);
-          if (event.which == FLECHE_BAS) camera.translateZ(0.05);
+          if (event.which == FLECHE_GAUCHE) camera.translateX(-CAMERA_SPEED);
+          if (event.which == FLECHE_DROITE) camera.translateX(CAMERA_SPEED);
+          if (event.which == FLECHE_HAUT) camera.translateZ(-CAMERA_SPEED);
+          if (event.which == FLECHE_BAS) camera.translateZ(CAMERA_SPEED);
         }
         //INDICE 1 (PLAFOND)
         if (Math.round(Math.abs(camera.rotation.x * 10)) == 31 && !indice_1) {
@@ -461,7 +461,6 @@
         if (indice_4 && objectNearObject(camera, door, 1)) {
           ascension_animation();
         }
-        //#endregion MOUVEMENTS CAMERA
       });
 
       Init();
