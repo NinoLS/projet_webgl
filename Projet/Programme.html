@@ -10,8 +10,8 @@
 
   <body>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="../Libs/three.min.js"></script>
-    <script src="../Libs/OBJLoader.js"></script>
+    <script src="./Libs/three.min.js"></script>
+    <script src="./Libs/OBJLoader.js"></script>
 
     <script>
       //#region CONSTANTES
@@ -132,14 +132,14 @@
         //#region INDICE 1 - TEXT-PLANE
         var canvas_indice1 = document.createElement("canvas");
         var context = canvas_indice1.getContext("2d");
-        var text = "Indice : ground!";
+        var text = "Indice suivant: Quelques choses à changer...";
 
-        context.font = "normal " + canvas_indice1.height + "px Arial";
+        context.font = "normal " + canvas_indice1.height / 2 + "px serif";
         var sizeText = context.measureText(text);
         canvas_indice1.width = sizeText.width;
         canvas_indice1.height = 300;
 
-        context.font = "normal " + canvas_indice1.height / 2 + "px serif";
+        context.font = "normal " + canvas_indice1.height / 4 + "px serif";
         context.fillStyle = "#FFFFFF";
         context.textAlign = "center";
         context.textBaseline = "middle";
@@ -250,13 +250,13 @@
       }
       function spheresFusion_animation() {
         if (!objectNearObject(sphere, sphere2, 10)) {
-          sphere.position.x -= 0.08;
-          sphere.position.y -= 0.08;
+          sphere.position.x -= 0.12;
+          sphere.position.y -= 0.12;
 
-          sphere2.position.x += 0.08;
-          sphere2.position.y -= 0.08;
+          sphere2.position.x += 0.12;
+          sphere2.position.y -= 0.12;
 
-          sphere3.position.y += 0.074;
+          sphere3.position.y += 0.111;
           requestAnimationFrame(spheresFusion_animation); //boucle
         } else {
           toggleObject(sphere);
@@ -403,6 +403,7 @@
           if (event.which == FLECHE_DROITE) camera.translateX(camera_speed);
           if (event.which == FLECHE_HAUT) camera.translateZ(-camera_speed);
           if (event.which == FLECHE_BAS) camera.translateZ(camera_speed);
+          camera.position.z = DEFAULT_Z; //rotation vertical gauche-droite
         }
         //INDICE 1 (PLAFOND)
         if (Math.round(Math.abs(camera.rotation.x * 10)) == 31 && !indice_1) {
@@ -431,9 +432,9 @@
             indice_3 = true;
             //changement lumiere "torche" (trigger)
             light.color.setRGB(
-              light.color.r - 0.2,
-              light.color.g - 0.2,
-              light.color.b + 0.1
+              light.color.r - 0.4,
+              light.color.g - 0.4,
+              light.color.b
             );
           }
         }
