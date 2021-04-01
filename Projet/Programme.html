@@ -48,7 +48,7 @@
       var camera, scene, renderer;
       var dax = 0.002;
 
-      var CAMERA_SPEED = 0.05;
+      var camera_speed = 0.05;
       var ambient, light;
       var tmp_rotation = [DEFAULT_X, DEFAULT_Y, DEFAULT_Z];
       var isCameraHorizontal = true;
@@ -122,7 +122,6 @@
         window.addEventListener("resize", onWindowResize, false);
         //#endregion TEXTURE ET MODELE
 
-        //#region OBJETS
         //#region LUMIERE MAIN PERSONNAGE
         light = new THREE.DirectionalLight(0xff9a00, 1, 1);
         camera.add(light);
@@ -345,10 +344,11 @@
         renderer.render(scene, camera);
       }
       function ascension_animation() {
+        camera_speed = 0;
         if (camera.position.z < 25) {
           camera.position.lerp(
             new THREE.Vector3(camera.position.x, camera.position.y, 27),
-            0.008
+            0.01
           );
           requestAnimationFrame(ascension_animation);
           renderer.render(scene, camera);
@@ -400,10 +400,10 @@
             indice2_trigger();
           }
           verifierProcheMur(camera, event);
-          if (event.which == FLECHE_GAUCHE) camera.translateX(-CAMERA_SPEED);
-          if (event.which == FLECHE_DROITE) camera.translateX(CAMERA_SPEED);
-          if (event.which == FLECHE_HAUT) camera.translateZ(-CAMERA_SPEED);
-          if (event.which == FLECHE_BAS) camera.translateZ(CAMERA_SPEED);
+          if (event.which == FLECHE_GAUCHE) camera.translateX(-camera_speed);
+          if (event.which == FLECHE_DROITE) camera.translateX(camera_speed);
+          if (event.which == FLECHE_HAUT) camera.translateZ(-camera_speed);
+          if (event.which == FLECHE_BAS) camera.translateZ(camera_speed);
         }
         //INDICE 1 (PLAFOND)
         if (Math.round(Math.abs(camera.rotation.x * 10)) == 31 && !indice_1) {
@@ -458,7 +458,7 @@
         }
 
         //"INDICE 4" - SORTIE
-        if (indice_4 && objectNearObject(camera, door, 1)) {
+        if (indice_4 && objectNearObject(camera, door, 3)) {
           ascension_animation();
         }
       });
