@@ -353,7 +353,6 @@
           requestAnimationFrame(ascension_animation);
           renderer.render(scene, camera);
         } else {
-          alert("Fin !");
           toggleObject(light);
           toggleObject(ambient);
           toggleObject(scene);
@@ -458,7 +457,12 @@
         }
 
         //"INDICE 4" - SORTIE
-        if (indice_4 && objectNearObject(camera, door, 3)) {
+        if (
+          indice_4 &&
+          objectNearObject(camera, door, 2) &&
+          camera_speed != 0
+        ) {
+          alert("Fin !");
           ascension_animation();
         }
       });
