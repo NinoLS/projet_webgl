@@ -428,8 +428,14 @@
             1 /
             (Math.abs(camera.position.x - bouton2.position.x) +
               Math.abs(camera.position.y - bouton2.position.y));
-          if ((bouton2.material.opacity > 4) & !indice_3) {
+          if (objectNearObject(camera, bouton2, 3) & !indice_3) {
             indice_3 = true;
+            //changement lumiere "torche" (trigger)
+            light.color.setRGB(
+              light.color.r - 0.2,
+              light.color.g - 0.2,
+              light.color.b + 0.1
+            );
           }
         }
         if (indice_3 && event.which == ENTREE && door == null) {
