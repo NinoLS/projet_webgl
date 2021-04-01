@@ -42,6 +42,7 @@
       const DEFAULT_Z_ROTATION = 0;
       const MAX_Z = 0;
       const AMBIENT_COLOR = 0x221100;
+      const LIGHT_COLOR = 0xff9a00;
       //#endregion CONSTANTES
       //#region VARIABLES
       var container;
@@ -123,7 +124,7 @@
         //#endregion TEXTURE ET MODELE
 
         //#region LUMIERE MAIN PERSONNAGE
-        light = new THREE.DirectionalLight(0xff9a00, 1, 1);
+        light = new THREE.DirectionalLight(LIGHT_COLOR, 1, 1);
         camera.add(light);
         scene.add(camera);
         light.position.z = 35;
@@ -302,6 +303,13 @@
           //lumiere de la lampe remise à la "normale"
           ambient.color.set(AMBIENT_COLOR);
 
+          //changement lumiere "torche" (trigger)
+          light.color.setRGB(
+            light.color.r - 0.4,
+            light.color.g - 0.4,
+            light.color.b
+          );
+
           //apparition du bouton2-cube (indice 3 )
           var GCube = new THREE.CubeGeometry(0.2, 0.2, 0.2);
           var MCube = new THREE.MeshPhongMaterial({
@@ -430,12 +438,9 @@
               Math.abs(camera.position.y - bouton2.position.y));
           if (objectNearObject(camera, bouton2, 3) & !indice_3) {
             indice_3 = true;
-            //changement lumiere "torche" (trigger)
-            light.color.setRGB(
-              light.color.r - 0.4,
-              light.color.g - 0.4,
-              light.color.b
-            );
+
+            //lumiere de la lampe remise à la "normale"
+            light.color.set(LIGHT_COLOR);
           }
         }
         if (indice_3 && event.which == ENTREE && door == null) {
